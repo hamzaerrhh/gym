@@ -89,7 +89,11 @@ const Register = () => {
                     placeholder="Password"
                   />
                 </div>
-                <div className="text-right text-gray-400 hover:underline hover:text-gray-100">
+                <div className="text-right flex justify-between text-gray-400 hover:underline hover:text-gray-100">
+                  <a href="/login" className=" text-white">
+                    login
+                  </a>
+
                   <a href="">Forgot your password?</a>
                 </div>
                 <div className="px-4 pb-2 pt-4">

@@ -118,6 +118,9 @@ const Login = () => {
                   sign in
                 </button>
               </div>
+              <div className="text-right text-white hover:underline hover:text-gray-100">
+                <a href="/register">register</a>
+              </div>
               <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
                 <a href="#">
                   <svg
