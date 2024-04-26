@@ -11,6 +11,10 @@ function generateToken(length) {
   }
   return token;
 }
+function getIdFromToken(token) {
+  const decodedToken = jwt.verify(token, process.env.JWT_PASS);
+  return decodedToken._id;
+}
 
 const auth = {
   register: async (req, res) => {
@@ -131,4 +135,9 @@ const auth = {
     //refresh token and edit the pass
     //redirect to home
   },
+  logout: async (req, res) => {
+    //find the user by token
+    //refresh the token
+  },
 };
+export default auth;
