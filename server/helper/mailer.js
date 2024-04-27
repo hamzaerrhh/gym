@@ -23,7 +23,7 @@ export const SendConfirmationEmail = (email, activationCode) => {
       html: `<div>
 <h1> Email de Confirmation </h1>
 <p>Pour activer votre compte , veuiller clicker sur ce lien </p>
-<a href=http://localhost:3000/confirm/${activationCode}> clicker ici </a>
+<a href=http://localhost:5173/confirm/${activationCode}> clicker ici </a>
 
 </div>`,
     })

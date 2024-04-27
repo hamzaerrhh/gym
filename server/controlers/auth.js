@@ -118,14 +118,17 @@ const auth = {
     }
   },
   verification: async (req, res) => {
+    console.log("the params", req.params);
     console.log("start verification");
     //get the tokenVerification from urlparams
-    const { tokenVerification } = req.params.verifyToken;
-    console.log(verifyToken);
+    const tokenVerification = req.params.tokenVerification;
+    console.log(tokenVerification);
     try {
       //search from data base
       console.log("start finding user");
-      const user = await User.findOne({ verifyToken: verifyToken });
+      console.log("the token verification", tokenVerification);
+
+      const user = await User.findOne({ verifyToken: tokenVerification });
 
       //check if exist
       if (!user) {
@@ -133,10 +136,11 @@ const auth = {
 
         return res.status(401).send({ message: "the user doesn't exist" });
       }
+      console.log("nthe user exist found");
 
       //clear  the tokenVerification in database and change isverify
       user.verifyToken = null;
-      user.isVerified = true;
+      user.virified = true;
       await user.save();
 
       return res.status(201).send({ msg: "the activation done" });
