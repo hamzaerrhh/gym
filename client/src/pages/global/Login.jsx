@@ -1,8 +1,25 @@
 import gym from "../../assets/gym.svg";
+import axios from "axios";
+import { useState } from "react";
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    console.log(email, password);
+  };
+
   return (
     <div>
-      {" "}
       <section className=" min-h-screen flex items-stretch text-white ">
         <div
           className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center"
@@ -91,12 +108,18 @@ const Login = () => {
               </span>
             </div>
             <p className="text-gray-100">or use email your account</p>
-            <form action="" className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+            <form
+              onSubmit={handleSubmit}
+              className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
+            >
               <div className="pb-2 pt-4">
                 <input
                   type="email"
                   name="email"
                   id="email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                   placeholder="Email"
                   className="block w-full p-4 text-lg rounded-sm bg-black"
                 />
@@ -107,6 +130,9 @@ const Login = () => {
                   type="password"
                   name="password"
                   id="password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                   placeholder="Password"
                 />
               </div>

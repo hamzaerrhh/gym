@@ -24,6 +24,7 @@ const auth = {
 
     //check if the data send corect
     if (!username || !email || !password) {
+      console.log("messing field");
       return res.status(400).send({ error: "Missing fields" });
     }
     try {
@@ -31,6 +32,8 @@ const auth = {
       const user = await User.findOne({ email: email });
       console.log("finding user done");
       if (user) {
+        console.log("user found");
+
         return res.status(400).send({ error: "User already exists." });
       }
       //hashed the password and the verifyToken
@@ -62,24 +65,36 @@ const auth = {
     console.log(req.body);
     const { email, password } = req.body;
     //verify the data entry
-    if (!email || !password)
+    if (!email || !password) {
+      console.log("missing filed");
+
       return res.status(400).send({ error: "missing filed" });
+    }
     try {
       //verify if the user exisste
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email: email });
       if (!user) {
+        console.log(" user not found");
+
         return res.status(400).json({ mesg: "user not found" });
       }
       //verify the password
       const isValidPassword = await bcryptjs.compare(password, user.password);
       if (!isValidPassword) {
+        console.log("not valid pass");
         return res.status(401).json({ message: "Incorrect password" });
       }
       //verify if verify
-      if (user.verify == false) {
+      if (user.virified == false) {
+        console.log("nuser not verified");
+
         return res.status(401).json({ message: "Please confirm your account" });
       }
+      //////////////////start confirme
+
       //start jwt
+      console.log("user is verified ");
+
       console.log("start jwt");
       const token = jwt.sign(
         { id: user._id, email: user.email, username: user.username },
