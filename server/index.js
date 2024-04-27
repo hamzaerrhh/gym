@@ -4,10 +4,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRout from "./routes/user.js";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
+app.use(cookieParser());
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));

@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcryptjs from "bcryptjs";
 import { SendConfirmationEmail } from "../helper/mailer.js";
+import jwt from "jsonwebtoken";
 
 function generateToken(length) {
   const characters =
@@ -96,13 +97,16 @@ const auth = {
       console.log("user is verified ");
 
       console.log("start jwt");
+
       const token = jwt.sign(
         { id: user._id, email: user.email, username: user.username },
-        "hamza",
+        process.env.JWT_PASS,
         { expiresIn: "1d" }
       );
+      console.log(token);
+
       const option = {
-        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 10000),
         httpOnly: true,
       };
       console.log("the login done");
@@ -111,7 +115,6 @@ const auth = {
         .status(201)
         .cookie("token", token, option)
         .json({ success: true, token });
-
       //send the data to front-end and token
     } catch (err) {
       return res.status(400).json({ error: "bad request", msg: err });
@@ -133,10 +136,8 @@ const auth = {
       //check if exist
       if (!user) {
         console.log("no user found");
-
         return res.status(401).send({ message: "the user doesn't exist" });
       }
-      console.log("nthe user exist found");
 
       //clear  the tokenVerification in database and change isverify
       user.verifyToken = null;

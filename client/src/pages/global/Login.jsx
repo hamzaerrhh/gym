@@ -1,5 +1,6 @@
 import gym from "../../assets/gym.svg";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useState } from "react";
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,11 +12,17 @@ const Login = () => {
         email,
         password,
       });
+      //start setting token to rowser
+      const token = res.data.token;
+      if (!token) {
+        console.log("no token");
+      } else {
+        Cookies.set("token", token, { expires: 7 });
+      }
+      console.log(res, "signin success", token);
     } catch (err) {
       console.log(err);
     }
-
-    console.log(email, password);
   };
 
   return (
