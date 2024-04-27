@@ -2,13 +2,16 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import authRout from "./routes/user";
+import authRout from "./routes/user.js";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
+app.use(bodyParser.json({ limit: "50mb" }));
+
 // Define a test route
 app.get("/", (req, res) => {
   console.log("test");

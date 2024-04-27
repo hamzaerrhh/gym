@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import cron from "node-cron";
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
     verifyToken: String,
     forgetToken: String,
     rule: {
+      type: String,
       enum: ["user", "admin", "cotch"],
       default: "user",
     },
@@ -29,7 +30,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Check if the model already exists before defining it
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;

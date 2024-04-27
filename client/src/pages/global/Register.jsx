@@ -1,5 +1,6 @@
 import { useState } from "react";
 import gym from "../../assets/gym.svg";
+import axios from "axios";
 const Register = () => {
   const [formdata, setFormData] = useState({
     username: "",
@@ -11,7 +12,16 @@ const Register = () => {
     setFormData({ ...formdata, [name]: value });
   };
   const handleSubmit = async (e) => {
-    e.preventDefault;
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        formdata,
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+
     console.log(formdata);
   };
   return (

@@ -1,6 +1,6 @@
-import User from "../models/user";
+import User from "../models/user.js";
 import bcryptjs from "bcryptjs";
-import { SendConfirmationEmail } from "../helper/mailer";
+import { SendConfirmationEmail } from "../helper/mailer.js";
 
 function generateToken(length) {
   const characters =
@@ -20,15 +20,19 @@ const auth = {
   register: async (req, res) => {
     console.log("start registation");
     console.log(req.body);
-    const { username, email, password } = req.body;
+    const { username, email, password } = req.body.formdata;
 
     //check if the data send corect
-    if (!username || !email || !password)
+    if (!username || !email || !password) {
       return res.status(400).send({ error: "Missing fields" });
+    }
     try {
       //check if user already register
-      const user = await User.findOne({ email });
-      if (user) return res.status(400).send({ error: "User already exists." });
+      const user = await User.findOne({ email: email });
+      console.log("finding user done");
+      if (user) {
+        return res.status(400).send({ error: "User already exists." });
+      }
       //hashed the password and the verifyToken
       ////hash pass
       const salt = await bcryptjs.genSalt(10);
@@ -45,7 +49,7 @@ const auth = {
       });
       await newUser.save();
       //send emai verification
-      SendConfirmationEmail("register", newUser.email, tokenVerification);
+      SendConfirmationEmail(newUser.email, newUser.verifyToken);
       console.log("registration done");
       return res.status(201).json({ msg: "user register" });
     } catch (err) {
@@ -126,11 +130,11 @@ const auth = {
       console.log("ther is a error");
     }
   },
-  forgetpassword: async (req, res) => {
+  forgetPass: async (req, res) => {
     //check forgetToken if not exist
     //send it to email
   },
-  editPass: async (req, res) => {
+  resetPass: async (req, res) => {
     //get the token,pass
     //refresh token and edit the pass
     //redirect to home
