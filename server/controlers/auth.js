@@ -152,7 +152,19 @@ const auth = {
   },
   forgetPass: async (req, res) => {
     //check forgetToken if not exist
+    console.log("start forget pass", req.body);
+    const email = req.body;
+    //find the user
+    const user = await User.findOne(email);
+    if (!user) {
+      console.log("no  user found");
+      return res.status(401).json({ message: "this email dosen't exist" });
+    }
+    ////generate forget token
+    user.forgetToken = generateToken(20);
+    await user.save();
     //send it to email
+    SendConfirmationEmail(user.email, user.forgetToken);
   },
   resetPass: async (req, res) => {
     //get the token,pass
