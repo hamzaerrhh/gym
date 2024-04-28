@@ -53,7 +53,7 @@ const auth = {
       });
       await newUser.save();
       //send emai verification
-      SendConfirmationEmail(newUser.email, newUser.verifyToken);
+      SendConfirmationEmail("register", newUser.email, newUser.verifyToken);
       console.log("registration done");
       return res.status(201).json({ msg: "user register" });
     } catch (err) {
@@ -164,11 +164,34 @@ const auth = {
     user.forgetToken = generateToken(20);
     await user.save();
     //send it to email
-    SendConfirmationEmail(user.email, user.forgetToken);
+    SendConfirmationEmail("forget", user.email, user.forgetToken);
   },
   resetPass: async (req, res) => {
     //get the token,pass
+
+    const { pass, confirm } = req.body;
+    const { forgetToken } = req.params;
+    console.log(forgetToken, "token");
+    console.log(pass, confirm);
+
+    if (pass != confirm) {
+      return res.status(401).json({ msg: "incorect entry" });
+    }
+    //verify if token exist
+    const user = await User.findOne({ forgetToken: forgetToken });
+    if (!user) {
+      console.log("non valide user");
+      return res.status(406).json({ msg: "your link expired" });
+    }
+    console.log("valide user");
+
     //refresh token and edit the pass
+    user.forgetToken = null;
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(pass, salt);
+    user.password = hashedPassword;
+    await user.save();
+
     //redirect to home
   },
   logout: async (req, res) => {
