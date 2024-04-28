@@ -3,8 +3,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 const Login = () => {
   const navigat = useNavigate();
+  const { dispatch } = useAuthContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
@@ -20,15 +22,26 @@ const Login = () => {
       if (!token) {
         console.log("no token");
       } else {
-        Cookies.set("token", token, { expires: 7 });
+        //set the token in cookie
+        console.log("set token");
+
+        Cookies.set("token", token);
+        console.log("done token");
+
+        console.log(res, "signin success", token);
+        console.log("the res", res.data.user);
+
+        //update auth context
+        dispatch({ type: "LOGIN", payload: res.data.user });
       }
-      console.log(res, "signin success", token);
-      navigat("/");
+
+      // navigat("/");
+      return;
     } catch (err) {
+      console.log(err);
       setErr(err.response.data.message);
     }
   };
-  console.log("the error", err);
   return (
     <div>
       <section className=" min-h-screen flex items-stretch text-white ">

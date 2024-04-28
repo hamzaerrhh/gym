@@ -104,11 +104,9 @@ const auth = {
 
       console.log("start jwt");
 
-      const token = jwt.sign(
-        { id: user._id, email: user.email, username: user.username },
-        process.env.JWT_PASS,
-        { expiresIn: "1d" }
-      );
+      const token = jwt.sign({ id: user._id }, process.env.JWT_PASS, {
+        expiresIn: "1d",
+      });
       console.log(token);
 
       const option = {
@@ -120,7 +118,7 @@ const auth = {
       return res
         .status(201)
         .cookie("token", token, option)
-        .json({ success: true, token });
+        .json({ success: true, token, user });
       //send the data to front-end and token
     } catch (err) {
       return res.status(400).json({ message: "bad request", msg: err });
