@@ -2,9 +2,12 @@ import gym from "../../assets/gym.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigat = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -20,11 +23,12 @@ const Login = () => {
         Cookies.set("token", token, { expires: 7 });
       }
       console.log(res, "signin success", token);
+      navigat("/");
     } catch (err) {
-      console.log(err);
+      setErr(err.response.data.message);
     }
   };
-
+  console.log("the error", err);
   return (
     <div>
       <section className=" min-h-screen flex items-stretch text-white ">
@@ -143,8 +147,13 @@ const Login = () => {
                   placeholder="Password"
                 />
               </div>
+              {err && (
+                <div className="text-right text-gray-400 hover:underline hover:text-gray-100">
+                  {err}
+                </div>
+              )}
               <div className="text-right text-gray-400 hover:underline hover:text-gray-100">
-                <a href="#">Forgot your password?</a>
+                <a href="/forget">Forgot your password?</a>
               </div>
               <div className="px-4 pb-2 pt-4">
                 <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">

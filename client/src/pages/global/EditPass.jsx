@@ -1,16 +1,22 @@
 import axios from "axios";
 import gym from "../../assets/gym.svg";
 import { useParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 const EditPass = () => {
+  const navigat = useNavigate();
   const { forgetToken } = useParams();
   const [pass, setPass] = useState("");
+  const [err, setErr] = useState("");
   const [confirm, setConfirm] = useState("");
   const handleSubmit = async (e) => {
+    setErr("");
     e.preventDefault();
     try {
       if (pass !== confirm) {
+        setErr("verify your pass");
+        setPass("");
+        setConfirm("");
         return;
       }
       const res = await axios.post(
@@ -21,7 +27,9 @@ const EditPass = () => {
         }
       );
       console.log(res);
+      navigat("/login");
     } catch (err) {
+      setErr("check your email");
       console.log(err);
     }
     console.log("the forget token", forgetToken);
@@ -135,6 +143,7 @@ const EditPass = () => {
                   className="block w-full p-4 text-lg rounded-sm bg-black"
                 />
               </div>
+              {err && <div>{err}</div>}
 
               <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
                 <a href="#">
@@ -177,6 +186,7 @@ const EditPass = () => {
                 </button>
               </div>
             </form>
+            <a href="/forget">forget</a>
           </div>
         </div>
       </section>

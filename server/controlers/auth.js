@@ -26,16 +26,22 @@ const auth = {
     //check if the data send corect
     if (!username || !email || !password) {
       console.log("messing field");
-      return res.status(400).send({ error: "Missing fields" });
+      return res.status(400).send({ message: "Missing fields" });
     }
     try {
       //check if user already register
-      const user = await User.findOne({ email: email });
+      const user = await User.findOne({
+        $or: [{ email: email }, { username: username }],
+      });
       console.log("finding user done");
       if (user) {
-        console.log("user found");
-
-        return res.status(400).send({ error: "User already exists." });
+        if (user.email === email) {
+          // Email is already taken
+          return res.status(400).json({ message: "Email is already taken" });
+        } else {
+          // Username is already taken
+          return res.status(400).json({ message: "Username is already taken" });
+        }
       }
       //hashed the password and the verifyToken
       ////hash pass
@@ -55,10 +61,10 @@ const auth = {
       //send emai verification
       SendConfirmationEmail("register", newUser.email, newUser.verifyToken);
       console.log("registration done");
-      return res.status(201).json({ msg: "user register" });
+      return res.status(201).json({ message: "user register" });
     } catch (err) {
       console.log("error in registration");
-      res.status(501).send(err);
+      res.status(501).json({ message: "error in registration " });
     }
   },
   login: async (req, res) => {
@@ -69,7 +75,7 @@ const auth = {
     if (!email || !password) {
       console.log("missing filed");
 
-      return res.status(400).send({ error: "missing filed" });
+      return res.status(400).send({ message: "missing filed" });
     }
     try {
       //verify if the user exisste
@@ -77,7 +83,7 @@ const auth = {
       if (!user) {
         console.log(" user not found");
 
-        return res.status(400).json({ mesg: "user not found" });
+        return res.status(400).json({ message: "user not found" });
       }
       //verify the password
       const isValidPassword = await bcryptjs.compare(password, user.password);
@@ -117,7 +123,7 @@ const auth = {
         .json({ success: true, token });
       //send the data to front-end and token
     } catch (err) {
-      return res.status(400).json({ error: "bad request", msg: err });
+      return res.status(400).json({ message: "bad request", msg: err });
     }
   },
   verification: async (req, res) => {
@@ -144,7 +150,7 @@ const auth = {
       user.virified = true;
       await user.save();
 
-      return res.status(201).send({ msg: "the activation done" });
+      return res.status(201).send({ message: "the activation done" });
       //redirect him to login page
     } catch (err) {
       console.log("ther is a error");
@@ -165,6 +171,7 @@ const auth = {
     await user.save();
     //send it to email
     SendConfirmationEmail("forget", user.email, user.forgetToken);
+    return res.status(201).send({ message: "the email sent" });
   },
   resetPass: async (req, res) => {
     //get the token,pass
@@ -175,28 +182,29 @@ const auth = {
     console.log(pass, confirm);
 
     if (pass != confirm) {
-      return res.status(401).json({ msg: "incorect entry" });
+      return res.status(401).json({ message: "incorect entry" });
     }
     //verify if token exist
-    const user = await User.findOne({ forgetToken: forgetToken });
-    if (!user) {
-      console.log("non valide user");
-      return res.status(406).json({ msg: "your link expired" });
-    }
-    console.log("valide user");
+    try {
+      const user = await User.findOne({ forgetToken: forgetToken });
+      if (!user) {
+        console.log("non valide user");
+        return res.status(406).json({ message: "your link expired" });
+      }
+      console.log("valide user");
 
-    //refresh token and edit the pass
-    user.forgetToken = null;
-    const salt = await bcryptjs.genSalt(10);
-    const hashedPassword = await bcryptjs.hash(pass, salt);
-    user.password = hashedPassword;
-    await user.save();
+      //refresh token and edit the pass
+      user.forgetToken = null;
+      const salt = await bcryptjs.genSalt(10);
+      const hashedPassword = await bcryptjs.hash(pass, salt);
+      user.password = hashedPassword;
+      await user.save();
+      return res.status(201).send({ messsage: "the reset done" });
+    } catch (err) {
+      res.status(500).json({ message: "server error" });
+    }
 
     //redirect to home
-  },
-  logout: async (req, res) => {
-    //find the user by token
-    //refresh the token
   },
 };
 export default auth;

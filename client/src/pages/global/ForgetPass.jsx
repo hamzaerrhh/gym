@@ -1,18 +1,23 @@
 import axios from "axios";
 import gym from "../../assets/gym.svg";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const ForgetPass = () => {
   const [email, setEmail] = useState("");
+  const [err, setErr] = useState("");
+
   const handleSubmit = async (e) => {
+    setErr("");
     e.preventDefault();
     try {
       const res = await axios.post(
         "http://localhost:5000/api/auth/forgetPass",
         { email }
       );
-      console.log(res);
+      setErr("check ur email");
     } catch (err) {
+      setErr("the email not found");
+
       console.log(err);
     }
     console.log(email);
@@ -114,6 +119,7 @@ const ForgetPass = () => {
                   className="block w-full p-4 text-lg rounded-sm bg-black"
                 />
               </div>
+              {err && <div>{err}</div>}
 
               <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
                 <a href="#">

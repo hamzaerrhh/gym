@@ -7,6 +7,7 @@ const Register = () => {
     email: "",
     password: "",
   });
+  const [err, setErr] = useState("");
   const handlChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formdata, [name]: value });
@@ -14,12 +15,27 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (!formdata.username) {
+        setErr("no valide name");
+        return;
+      }
+      if (!formdata.email) {
+        setErr("no valide email");
+        return;
+      }
+      if (!formdata.password) {
+        setErr("no valide pass");
+        return;
+      }
+
       const res = await axios.post("http://localhost:5000/api/auth/register", {
         formdata,
       });
-      console.log(res);
+      console.log("the responce", res.data);
+      setErr("thank u for join us now check ur email");
     } catch (err) {
-      console.log(err);
+      setErr(err.response.data.message);
+      console.log("the error", err.response.data.message);
     }
 
     console.log(formdata);
@@ -99,12 +115,12 @@ const Register = () => {
                     placeholder="Password"
                   />
                 </div>
+                {err && <div>{err}</div>}
+
                 <div className="text-right flex justify-between text-gray-400 hover:underline hover:text-gray-100">
                   <a href="/login" className=" text-white">
                     login
                   </a>
-
-                  <a href="">Forgot your password?</a>
                 </div>
                 <div className="px-4 pb-2 pt-4">
                   <button

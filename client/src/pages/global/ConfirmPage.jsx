@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const ConfirmPage = () => {
   const { activation } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleVerification = async () => {
@@ -12,6 +13,8 @@ const ConfirmPage = () => {
           `http://localhost:5000/api/auth/verify/${activation}`
         );
         console.log(res);
+
+        navigate("/login");
       } catch (err) {
         console.log(err);
       }
