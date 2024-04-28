@@ -35,7 +35,7 @@ const Login = () => {
         dispatch({ type: "LOGIN", payload: res.data.user });
       }
 
-      // navigat("/");
+      navigat("/");
       return;
     } catch (err) {
       console.log(err);
