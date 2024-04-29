@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    number: Number,
     imageProfile: String,
     virified: {
       type: Boolean,
@@ -22,7 +23,7 @@ const userSchema = new mongoose.Schema(
     },
     verifyToken: String,
     forgetToken: String,
-    rule: {
+    role: {
       type: String,
       enum: ["user", "admin", "cotch"],
       default: "user",
@@ -31,6 +32,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+const User = mongoose.models.User || mongoose.model("users", userSchema);
 
 export default User;

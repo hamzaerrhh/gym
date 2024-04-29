@@ -1,7 +1,9 @@
 # Ignore .env file
 server/.env
 client/.env
+admin/.env
 
 # Ignore node_modules
 server/node_modules/
 client/node_modules/
+admin/node_modules/

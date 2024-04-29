@@ -1,13 +1,15 @@
+// Middleware for requiring authentication and checking user role
 import User from "../models/user";
 const requireAuth = async (req, res, next) => {
-  console.log("start getting data");
   const token = req.cookies.token;
-  console.log(token);
 
   if (token) {
     try {
+      // Verify token
       const { id } = jwt.verify(token, process.env.JWT_PASS);
-      const user = await User.findOne({ _id: id }).select("_id");
+
+      // Find user
+      const user = await User.findOne({ _id: id });
 
       if (!user) {
         return res.status(401).json({ message: "Unauthorized" });
@@ -26,3 +28,23 @@ const requireAuth = async (req, res, next) => {
     return res.status(403).json({ message: "You should login firstly" });
   }
 };
+
+// Middleware for requiring coach role
+const requireCoach = (req, res, next) => {
+  if (req.user && req.user.role === "coach") {
+    next();
+  } else {
+    return res.status(403).json({ message: "Unauthorized: Insufficient role" });
+  }
+};
+
+// Middleware for requiring admin role
+const requireAdmin = (req, res, next) => {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    return res.status(403).json({ message: "Unauthorized: Insufficient role" });
+  }
+};
+
+export default { requireAuth, requireCoach, requireAdmin };
