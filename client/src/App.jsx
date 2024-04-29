@@ -7,10 +7,12 @@ import Home from "./pages/global/Home";
 import ConfirmPage from "./pages/global/ConfirmPage";
 import ForgetPass from "./pages/global/ForgetPass";
 import EditPass from "./pages/global/EditPass";
+import Clubs from "./pages/global/Clubs";
 
 function App() {
   return (
     <Routes>
+      <Route path="/Clubs" element={<Clubs />} />
       <Route path="/forget" element={<ForgetPass />} />
       <Route path="/forget/:forgetToken" element={<EditPass />} />
       <Route path="/confirm/:activation" element={<ConfirmPage />} />
