@@ -17,7 +17,7 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="fixed  flex flex-col w-full text-white  px-7 py-4 ">
+      <div className=" z-10 fixed  flex flex-col w-full text-white  px-7 py-4 ">
         <div className=" w-full flex justify-between items-center ">
           <div className=" flex gap-2">
             <a>
@@ -64,7 +64,7 @@ const NavBar = () => {
           <div className="  w-full flex justify-center items-center pt-4 ">
             <ul className="flex gap-10 text-sm font-semibold">
               <li>Accuil</li>
-              <li>Clubs</li>
+
               <li>Activité</li>
               <li>Entrainement personnel</li>
               <li>Spa</li>
