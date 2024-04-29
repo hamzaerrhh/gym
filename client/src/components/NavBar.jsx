@@ -41,14 +41,18 @@ const NavBar = () => {
               {user ? (
                 <button
                   onClick={logout}
-                  className=" text-black bg-white rounded-lg p-1"
+                  type="button"
+                  className="px-3 py-1 font-semibold rounded-full dark:bg-gray-800 dark:text-gray-100"
                 >
-                  log out
+                  logout
                 </button>
               ) : (
                 <a href="/login">
-                  <button className=" text-black bg-white rounded-lg p-1">
-                    sign in
+                  <button
+                    type="button"
+                    className="px-3 py-1 font-semibold rounded-full dark:bg-gray-200 dark:text-gray-900"
+                  >
+                    login
                   </button>
                 </a>
               )}
