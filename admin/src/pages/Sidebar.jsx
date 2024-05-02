@@ -16,44 +16,71 @@ const Sidebar = () => {
       {isOpen ? (
         <>
           <div className="flex flex-col space-y-4">
-            <button className="flex items-center">
-              <img width={20} src={gym} className=" bg-white p-1 rounded-md" />
-              <h3 className="font-bold ml-2">GYM PRO</h3>
-            </button>
-            <button className="flex items-center">
-              <MdSpaceDashboard className="mr-2" />
-              <div>Dashboard</div>
-            </button>
-            <button className="flex items-center">
-              <FaBasketShopping className="mr-2" />
-              <div>Clubs</div>
-            </button>
-            <button className="flex items-center">
-              <FaBasketShopping className="mr-2" />
-              <div>Products</div>
-            </button>
-            <button className="flex items-center">
-              <FaBasketShopping className="mr-2" />
-              <div>Users</div>
-            </button>
-            <button className="flex items-center">
-              <FaBasketShopping className="mr-2" />
-              <div>Events</div>
-            </button>
-            <div className="flex items-center">
-              <FaBasketShopping className="mr-2" />
-              <div>Orders</div>
-            </div>
+            <a href="/">
+              <button className="flex items-center">
+                <img
+                  width={20}
+                  src={gym}
+                  className=" bg-white p-1 rounded-md"
+                />
+                <h3 className="font-bold ml-2">GYM PRO</h3>
+              </button>{" "}
+            </a>
+            <a href="/dashboard">
+              <button className="flex items-center">
+                <MdSpaceDashboard className="mr-2" />
+                <div>Dashboard</div>
+              </button>
+            </a>
+            <a href="/club">
+              <button className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>Clubs</div>
+              </button>{" "}
+            </a>
+            <a href="/product">
+              <button className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>Products</div>
+              </button>{" "}
+            </a>
+            <a href="/users">
+              {" "}
+              <button className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>Users</div>
+              </button>{" "}
+            </a>
+            <a href="/event">
+              {" "}
+              <button className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>Events</div>
+              </button>{" "}
+            </a>
+
+            <a href="/orders">
+              {" "}
+              <div className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>Orders</div>
+              </div>
+            </a>
           </div>
           <div className="flex flex-col space-y-4">
-            <button className="flex items-center">
-              <FaBasketShopping className="mr-2" />
-              <div>Admins</div>
-            </button>
-            <button className="flex items-center">
-              <FaBasketShopping className="mr-2" />
-              <div>Settings</div>
-            </button>
+            <a href="/admin">
+              <button className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>Admins</div>
+              </button>{" "}
+            </a>
+            <a href="/setting">
+              {" "}
+              <button className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>Settings</div>
+              </button>{" "}
+            </a>
           </div>
           <button
             onClick={toggleSidebar}
