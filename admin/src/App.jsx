@@ -11,6 +11,8 @@ import User from "./pages/adminPages/User";
 import Event from "./pages/adminPages/Event";
 import Admin from "./pages/adminPages/Admin";
 import Setting from "./pages/adminPages/Setting";
+import Foode from "./pages/adminPages/Foode";
+import Appoinements from "./pages/adminPages/card/Appoinements";
 
 function App() {
   const { user } = useAuthContext();
@@ -28,7 +30,6 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/orders" element={<Order />} />
-          {/* <Route path="/club" element={<Clubs />} /> */}
           <Route index element={<Product />} />
           <Route path="/product" element={<Product />} />
           <Route path="/club" element={<Club />} />
@@ -36,7 +37,8 @@ function App() {
           <Route path="/event" element={<Event />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/setting" element={<Setting />} />
-
+          <Route path="/food" element={<Foode />} />
+          <Route path="/appoinements" element={<Appoinements />} />
           <Route path="/addProduct" element={<AddProduct />} />
         </Route>
       )}

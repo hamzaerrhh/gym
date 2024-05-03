@@ -11,6 +11,14 @@ const CoachSchema = mongoose.Schema(
       type: String,
       require: true,
     },
+    post: {
+      type: {
+        /*i should spesify the post type*/
+      },
+    },
+    appoinements: {},
+    timeline: {},
+    client: {},
   },
   {
     timestamp: true,

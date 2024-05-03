@@ -1,4 +1,8 @@
-const PreView = () => {
+const PreView = ({ data }) => {
+  if (data && data.mainImage) {
+    console.log(data.mainImage);
+  }
+  // you shoulde fix the whith and taille of image
   return (
     <>
       <div className="container">
@@ -25,12 +29,19 @@ const PreView = () => {
                   </button>
                 </div>
                 <img
-                  src="https://images.unsplash.com/photo-1577982787983-e07c6730f2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2059&q=80"
+                  src={
+                    data && data.mainImage
+                      ? URL.createObjectURL(data.mainImage)
+                      : "https://images.unsplash.com/photo-1577982787983-e07c6730f2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2059&q=80"
+                  }
                   alt="Just a flower"
-                  className=" w-full   object-fill  rounded-2xl"
+                  className="rounded-2xl"
+                  style={{ width: "400px", height: "300px" }} // Adjust width and height as needed
                 />
               </div>
               <div className="flex-auto justify-evenly">
+                <div className=" text-white font-bold pb-2">{data.name}</div>
+
                 <div className="flex flex-wrap ">
                   <div className="w-full flex-none text-sm flex items-center text-gray-600">
                     <svg
@@ -47,17 +58,17 @@ const PreView = () => {
                   </div>
                   <div className="flex items-center w-full justify-between min-w-0 ">
                     <h2 className="text-lg mr-auto cursor-pointer text-gray-200 hover:text-purple-500 truncate ">
-                      protene
+                      {data && data.category}
                     </h2>
+
                     <div className="flex items-center bg-green-400 text-white text-xs px-2 py-1 ml-3 rounded-lg">
                       INSTOCK
                     </div>
                   </div>
                 </div>
                 <div className="text-xl text-white font-semibold mt-1 pb-5">
-                  $240.00
+                  {data && data.prix}dh
                 </div>
-
                 <div className="flex space-x-2 text-sm font-medium justify-start">
                   <button className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 ">
                     <span>Add Cart</span>

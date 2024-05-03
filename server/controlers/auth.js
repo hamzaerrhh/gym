@@ -202,19 +202,24 @@ const auth = {
   },
   getdata: async (req, res) => {
     console.log("start geting data");
+
     const token = req.cookies.token;
-    console.log(token);
 
     if (token) {
-      const { id } = jwt.verify(token, process.env.JWT_PASS);
-      const user = await User.find({ _id: id }).select("-password");
-      console.log(user);
-      if (!user) {
-        return res.status(401).json({ message: "not outh" });
+      try {
+        const { id } = jwt.verify(token, process.env.JWT_PASS);
+        const user = await User.find({ _id: id }).select("-password");
+        console.log(user);
+        if (!user) {
+          return res.status(401).json({ message: "not outh" });
+        }
+
+        console.log(token);
+        return res.status(201).json({ user });
+      } catch (err) {
+        console.log(err);
+        return res.status(403).json({ message: "you should login firstly" });
       }
-      return res.status(201).json({ user });
-    } else {
-      return res.status(403).json({ message: "you should login firstly" });
     }
   },
 };
