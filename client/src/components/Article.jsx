@@ -1,12 +1,13 @@
 import React from "react";
-import gymImage from "../assets/gym_view2.jpg";
 import gym from "../assets/gym.svg";
 
 const Article = () => {
   return (
     <div
       className={`w-full bg-cover bg-center bg-no-repeat h-screen flex flex-col items-center justify-center gap-8`}
-      style={{ backgroundImage: `url(${gymImage})` }}
+      style={{
+        backgroundImage: `url(https://res.cloudinary.com/djq8hnmt9/image/upload/v1714759785/public/ehu0wcaq5nctqffmqbtr.jpg)`,
+      }}
     >
       <h1 className="text-4xl text-gray-300 leading-relaxed text-center w-4/5">
         "Lorem Ipsum is simply dummy text of the printing and typesetting

@@ -1,10 +1,5 @@
-import box from "../assets/box.jpg";
-import taekwando from "../assets/taekwando.jpg";
-import piscine from "../assets/piscine.jpg";
-import dance from "../assets/dance.jpg";
 import fitness from "../assets/muscle.jpg";
 import aerobic from "../assets/aerobic.jpg";
-import mma from "../assets/mma.jpg";
 
 const Class = () => {
   return (
@@ -39,7 +34,7 @@ const Class = () => {
             <img
               role="presentation"
               className="object-cover w-full rounded h-44 bg-black0"
-              src={mma}
+              src="https://res.cloudinary.com/djq8hnmt9/image/upload/v1714759732/public/zpobt5fuki0vsppcdhaf.jpg"
             />
             <div className="p-6 space-y-2">
               <h3 className="text-2xl font-semibold group-hover:underline group-focus:underline">
@@ -64,7 +59,7 @@ const Class = () => {
             <img
               role="presentation"
               className="object-cover w-full rounded h-44 bg-black0"
-              src={piscine}
+              src="https://res.cloudinary.com/djq8hnmt9/image/upload/v1714759729/public/uc8qd0jppg6spdk6epho.jpg"
             />
             <div className="p-6 space-y-2">
               <h3 className="text-2xl font-semibold group-hover:underline group-focus:underline">
@@ -89,7 +84,7 @@ const Class = () => {
             <img
               role="presentation"
               className="object-cover w-full rounded h-44 bg-black0"
-              src={dance}
+              src="https://res.cloudinary.com/djq8hnmt9/image/upload/v1714759728/public/klnwcyggkx5nsdhhllti.jpg"
             />
             <div className="p-6 space-y-2">
               <h3 className="text-2xl font-semibold group-hover:underline group-focus:underline">
@@ -114,7 +109,7 @@ const Class = () => {
             <img
               role="presentation"
               className="object-cover w-full rounded h-44 bg-black0"
-              src={taekwando}
+              src="https://res.cloudinary.com/djq8hnmt9/image/upload/v1714759784/public/pmsehsgrkbvfkt3rw4on.jpg"
             />
             <div className="p-6 space-y-2">
               <h3 className="text-2xl font-semibold group-hover:underline group-focus:underline">
@@ -164,7 +159,7 @@ const Class = () => {
             <img
               role="presentation"
               className="object-cover w-full rounded h-44 bg-black0"
-              src={box}
+              src="https://res.cloudinary.com/djq8hnmt9/image/upload/v1714759729/public/q2zoiypj3dk2gk9oxru7.jpg"
             />
             <div className="p-6 space-y-2">
               <h3 className="text-2xl font-semibold group-hover:underline group-focus:underline">

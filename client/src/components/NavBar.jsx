@@ -27,6 +27,7 @@ const NavBar = () => {
               <RiInstagramFill />
             </a>
           </div>
+
           <div className="flex gap-2">
             <img
               width={30}
@@ -67,14 +68,35 @@ const NavBar = () => {
         <div className=" hidden md:block ">
           <div className="  w-full flex justify-center items-center pt-4 ">
             <ul className="flex gap-10 text-sm font-semibold">
-              <li>Accuil</li>
+              <a>
+                <li href="/">Accuil</li>
+              </a>
 
-              <li>Activité</li>
-              <li>Entrainement personnel</li>
-              <li>Spa</li>
-              <li>Nurition</li>
-              <li>Event</li>
-              <li>Espace</li>
+              <a href="/activeté">
+                {" "}
+                <li>Activité</li>{" "}
+              </a>
+              <a href="/personal_training">
+                {" "}
+                <li>Entrainement personnel</li>
+              </a>
+              <a href="/spa">
+                <li>Spa</li>
+              </a>
+
+              <a href="/nurition">
+                {" "}
+                <li>Nurition</li>
+              </a>
+              <a href="/event">
+                <li>Event</li>{" "}
+              </a>
+              <a href="/espce">
+                <li>Espace</li>{" "}
+              </a>
+              <a href="/store">
+                <li>store</li>{" "}
+              </a>
             </ul>
           </div>
         </div>
