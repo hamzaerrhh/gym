@@ -9,8 +9,7 @@ import ForgetPass from "./pages/global/ForgetPass";
 import EditPass from "./pages/global/EditPass";
 import Clubs from "./pages/global/Clubs";
 import PersonaleTraining from "./pages/user/PersonaleTraining";
-import Store from "./pages/user/Store";
-import NavBar from "./components/NavBar";
+
 import Layout from "./Layout";
 import { Spa } from "./pages/user/Spa";
 import Nurition from "./pages/user/Nurition";
@@ -18,6 +17,11 @@ import Event from "./pages/user/Event";
 import Espace from "./pages/user/Espace";
 import OurStore from "./pages/user/OurStore";
 import ProductDetaile from "./pages/user/ProductDetaile";
+import BookCoaching from "./pages/user/BookCoaching";
+import Booking from "./pages/user/Booking";
+import Massage from "./pages/user/Massage";
+import Keni from "./pages/user/Keni";
+import SpaPage from "./pages/user/SpaPage";
 
 function App() {
   return (
@@ -37,6 +41,11 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/store" element={<OurStore />} />
         <Route path="/store/:id" element={<ProductDetaile />} />
+        <Route path="/findCoach" element={<BookCoaching />} />
+        <Route path="/findCoach/:id" element={<Booking />} />
+        <Route path="/spa/massage" element={<Massage />} />
+        <Route path="/spa/keni" element={<Keni />} />
+        <Route path="/spa/spa" element={<SpaPage />} />
       </Route>
     </Routes>
   );

@@ -7,18 +7,20 @@ const AppoinementSchema = mongoose.Schema(
       ref: "users",
       require: true,
     },
-    clientNumber: { type: String, required: true },
+    clientNumber: { type: Number, required: true },
     appointmentType: {
       type: String,
       enum: ["Spa", "Massage", "Kenie"],
       required: true,
     },
     reservationTime: { type: Date, required: true },
+    validation: { type: Boolean, default: false },
   },
   {
     timestamp: true,
   }
 );
-const Coach = mongoose.models.Coach || mongoose.model("coachs", CoachSchema);
+const Appoinement =
+  mongoose.models.Coach || Appoinement.model("appoinements", AppoinementSchema);
 
 export default Coach;

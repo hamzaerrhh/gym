@@ -1,3 +1,9 @@
+import SpaHeader from "./hero/SpaHeader";
+
 export const Spa = () => {
-  return <div>Spa</div>;
+  return (
+    <div>
+      <SpaHeader />
+    </div>
+  );
 };

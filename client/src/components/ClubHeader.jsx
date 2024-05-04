@@ -34,7 +34,7 @@ const ClubHeader = () => {
             </div>
             <div className="md:mb-12 lg:mb-0">
               <img
-                src={training}
+                src="https://res.cloudinary.com/djq8hnmt9/image/upload/f_auto,q_auto/v1/public/q4vjunwli02361kfneta"
                 className="w-full rounded-lg shadow-lg dark:shadow-black/20"
                 alt=""
               />

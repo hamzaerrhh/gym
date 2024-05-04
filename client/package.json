@@ -11,15 +11,20 @@
   },
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.1.7",
+    "headlessui": "^0.0.0",
+    "heroicons": "^2.1.3",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
+    "react-calendar": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.1.0",
     "react-router-dom": "^6.23.0",
     "tw-elements": "^2.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",

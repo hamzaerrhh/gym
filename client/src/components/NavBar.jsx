@@ -57,7 +57,6 @@ const NavBar = () => {
                   </button>
                 </a>
               )}
-
               <button className=" text-black bg-white rounded-lg p-1">
                 hello
               </button>
@@ -68,34 +67,28 @@ const NavBar = () => {
         <div className=" hidden md:block ">
           <div className="  w-full flex justify-center items-center pt-4 ">
             <ul className="flex gap-10 text-sm font-semibold">
-              <a>
+              <a href="/">
                 <li href="/">Accuil</li>
               </a>
 
-              <a href="/activeté">
-                {" "}
-                <li>Activité</li>{" "}
+              <a href="/clubs">
+                <li>Clubs</li>
               </a>
               <a href="/personal_training">
-                {" "}
                 <li>Entrainement personnel</li>
               </a>
               <a href="/spa">
                 <li>Spa</li>
               </a>
-
               <a href="/nurition">
-                {" "}
                 <li>Nurition</li>
               </a>
               <a href="/event">
-                <li>Event</li>{" "}
+                <li>Event</li>
               </a>
-              <a href="/espce">
-                <li>Espace</li>{" "}
-              </a>
+
               <a href="/store">
-                <li>store</li>{" "}
+                <li>store</li>
               </a>
             </ul>
           </div>

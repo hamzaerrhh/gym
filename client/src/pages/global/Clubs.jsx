@@ -11,7 +11,6 @@ const Clubs = () => {
       <ClubHeader />
       <ClubsCasual />
       <Contact />
-      <Footer />
     </>
   );
 };
