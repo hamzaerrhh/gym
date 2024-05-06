@@ -4,10 +4,17 @@ import { FaFacebookF } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
 import Cookies from "js-cookie";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "../redux/reducere/cartSlice";
+import { FaShoppingCart } from "react-icons/fa";
 
 const NavBar = () => {
   const { user, dispatch } = useAuthContext();
-  const logout = () => {
+  const action = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
+  const logout = async () => {
+    //clear cart
+    await action(clearCart());
     //remove token from cookie
     Cookies.remove("token");
 
@@ -37,31 +44,39 @@ const NavBar = () => {
             />
             <div className=" hidden md:block">Gym of Gladiator </div>
           </div>
-          <div className="   hidden md:block">
-            <div className=" flex gap-2">
+          <div className="flex items-center space-x-4 md:space-x-8">
+            <div className="relative">
+              <div className="bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center">
+                <span>{cartItems.length}</span>
+                <FaShoppingCart className="ml-1" />
+              </div>
+              <div className="absolute w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
+            </div>
+            <div className="flex gap-2">
               {user ? (
                 <button
                   onClick={logout}
                   type="button"
-                  className="px-3 py-1 font-semibold rounded-full dark:bg-gray-800 dark:text-gray-100"
+                  className="px-3 py-1 font-semibold rounded-full bg-gray-800 text-white"
                 >
-                  logout
+                  Logout
                 </button>
               ) : (
                 <a href="/login">
                   <button
                     type="button"
-                    className="px-3 py-1 font-semibold rounded-full dark:bg-gray-200 dark:text-gray-900"
+                    className="px-3 py-1 font-semibold rounded-full bg-gray-200 text-gray-900"
                   >
-                    login
+                    Login
                   </button>
                 </a>
               )}
-              <button className=" text-black bg-white rounded-lg p-1">
-                hello
+              <button className="px-3 py-1 font-semibold rounded-lg bg-white text-black">
+                Hello
               </button>
             </div>
           </div>
+
           <div className="block md:hidden">ham</div>
         </div>
         <div className=" hidden md:block ">

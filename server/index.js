@@ -2,13 +2,14 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 //the route import
 import authRout from "./routes/user.js";
 import adminRout from "./routes/admin.js";
 import productRoutes from "./routes/Product.js";
+import foodRoute from "./routes/food.js";
+import catRoute from "./routes/category.js";
 
 dotenv.config();
 
@@ -28,6 +29,9 @@ const corsOptions = {
 
 // Use CORS middleware with specific origins
 app.use(cors(corsOptions));
+
+// Handle OPTIONS requests globally
+app.options("*", cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 
 // Define a test route
@@ -39,6 +43,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRout);
 app.use("/api/admin", adminRout);
 app.use("/api/product", productRoutes);
+app.use("/api/food", foodRoute);
+app.use("/api/product/cat", catRoute);
 
 const PORT = 5000;
 app.listen(PORT, () => {

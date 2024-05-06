@@ -58,6 +58,19 @@ const Admin = {
       res.status(501).json({ message: "error in registration " });
     }
   },
+  get: async (req, res) => {
+    const role = req.params.role;
+    try {
+      if (role != "user" && role != "coach" && role != "admin") {
+        return res.status(401).json({ message: "no such role" });
+      }
+      let users = await User.find({ role: role }).select("-password -__v");
+      res.status(200).json(users);
+    } catch (err) {
+      console.log(err);
+      return res.status(401).json({ message: "error" });
+    }
+  },
 };
 
 export default Admin;

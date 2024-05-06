@@ -1,7 +1,15 @@
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../../../redux/reducere/cartSlice";
+import { useEffect, useState } from "react";
+
 const ProductCard = ({ data }) => {
-  if (data && data.mainImage) {
-    console.log(data.mainImage);
-  }
+  const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
+  const handleAddItem = async () => {
+    dispatch(addItem({ product: data }));
+    console.log(cartItems); // Log cartItems after the action has been dispatched
+  };
+
   // you shoulde fix the whith and taille of image
   return (
     <>
@@ -70,7 +78,10 @@ const ProductCard = ({ data }) => {
                   {data && data.prix}dh
                 </div>
                 <div className="flex space-x-2 text-sm font-medium justify-start">
-                  <button className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 ">
+                  <button
+                    onClick={handleAddItem}
+                    className="transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600 "
+                  >
                     <span>Add Cart</span>
                   </button>
                   <button className="transition ease-in duration-300 bg-gray-700 hover:bg-gray-800 border hover:border-gray-500 border-gray-700 hover:text-white  hover:shadow-lg text-gray-400 rounded-full w-9 h-9 text-center p-2">

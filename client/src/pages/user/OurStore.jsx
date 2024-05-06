@@ -1,48 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "./cards/ProductCrd";
-import { faker } from "@faker-js/faker";
 import StoreHero from "./hero/StoreHero";
-const generateFakeProducts = (count) => {
-  const products = [];
-  for (let i = 0; i < count; i++) {
-    const productName = faker.commerce.productName();
-    const productDescription = faker.lorem.sentence();
-    const productPrice = faker.commerce.price();
-    const productCategory = faker.commerce.department();
-    const productImage = faker.image.imageUrl();
-    products.push({
-      name: productName,
-      description: productDescription,
-      price: productPrice,
-      category: productCategory,
-      mainImage: productImage,
-    });
-  }
-  return products;
-};
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "../../redux/reducere/cartSlice";
 
 const OurStore = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [products] = useState(generateFakeProducts(20));
+  const [products, setProducts] = useState([]);
+  const cartItems = useSelector((state) => state.cart.items);
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const dispatch = useDispatch();
+
+  const getProduct = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/product", {
+        withCredentials: true,
+      });
+      console.log(res.data);
+      setProducts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  console.log(products);
 
   return (
     <div className="bg-gray-900 text-white">
       {/* Hero Section */}
       <StoreHero />
+      <button
+        onClick={() => {
+          dispatch(clearCart());
+        }}
+      >
+        clearr
+      </button>
       <div className="py-12 px-4 bg-gray-800 text-center">
         <h1 className="text-4xl font-bold mb-4">Most buy Products</h1>
         <p className="text-lg mb-8">
           Check out our latest and greatest offerings!
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Display featured products here */}
-          {filteredProducts.slice(0, 3).map((product, index) => (
+          {products.slice(0, 3).map((product, index) => (
             <ProductCard key={index} data={product} />
           ))}
         </div>
@@ -117,7 +120,7 @@ const OurStore = () => {
         <h2 className="text-2xl font-bold mb-6">All Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Display all filtered products */}
-          {filteredProducts.map((product, index) => (
+          {products.map((product, index) => (
             <ProductCard key={index} data={product} />
           ))}
         </div>

@@ -31,7 +31,7 @@ export const AuthContextProvider = ({ children }) => {
         const res = await axios.get("http://localhost:5000/api/auth/data", {
           withCredentials: true,
         });
-        dispatch({ type: "LOGIN", payload: res.data.user[0] });
+        dispatch({ type: "LOGIN", payload: res.data.user });
       } catch (err) {
         console.error(err);
       }

@@ -202,24 +202,27 @@ const auth = {
   },
   getdata: async (req, res) => {
     console.log("start geting data");
+    const user = req.user;
+    try {
+      console.log(user);
 
-    const token = req.cookies.token;
+      return res.status(201).json({ user });
+    } catch (err) {
+      console.llog(err);
+      return res.status(401).json({ message: "not outh" });
+    }
+  },
+  edit: async (req, res) => {
+    //get id by param
+  },
+  getAll: async (req, res) => {
+    try {
+      const users = await User.find({ role: "user" }).select("-password");
 
-    if (token) {
-      try {
-        const { id } = jwt.verify(token, process.env.JWT_PASS);
-        const user = await User.find({ _id: id }).select("-password");
-        console.log(user);
-        if (!user) {
-          return res.status(401).json({ message: "not outh" });
-        }
-
-        console.log(token);
-        return res.status(201).json({ user });
-      } catch (err) {
-        console.log(err);
-        return res.status(403).json({ message: "you should login firstly" });
-      }
+      return res.status(200).json(users);
+    } catch (err) {
+      console.log(err);
+      return res.status(401).json({ message: "eror in geting data" });
     }
   },
 };

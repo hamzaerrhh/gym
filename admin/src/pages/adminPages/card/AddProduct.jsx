@@ -3,19 +3,34 @@ import { useState } from "react";
 import axios from "axios";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import { IoMdAddCircle } from "react-icons/io";
+import uploadFile from "../../../helper/upload";
 
 const AddProduct = () => {
+  const [cat, setCat] = useState([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     prix: "",
-    category: [],
+    category: "",
     stock: "",
     description: "",
     mainImage: "",
     additionalImages: [], // Store multiple images in an array
   });
+
+  const feechCat = async () => {
+    const res = await axios.get("http://localhost:5000/api/product/cat", {
+      withCredentials: true,
+    });
+    console.log("cat", res.data);
+    setCat(res.data);
+  };
+  useEffect(() => {
+    feechCat();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,45 +54,13 @@ const AddProduct = () => {
 
     setLoading(true);
     setErr("");
-    // Convert comma-separated categories into an array
-    let categories = [];
-    if (category) {
-      categories = formData.category.split(",").map((cat) => cat.trim());
-    }
 
-    // Remaining code remains the same...
     // Upload main image, additional images, and submit the form data
 
     // Function to upload file to Cloudinary
-    const uploadFile = async (img) => {
-      const data = new FormData();
-      data.append("file", img);
-      data.append("upload_preset", "images_product");
-
-      try {
-        let res = await axios.post(
-          "https://api.cloudinary.com/v1_1/djq8hnmt9/image/upload",
-          data,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        const imageUrl = res.data.secure_url;
-        console.log(imageUrl);
-        return imageUrl;
-      } catch (err) {
-        console.log(err);
-        setErr("error in download image please try again");
-      }
-    };
 
     // Upload main image
-    let mainImageUrl = "";
-    if (formData.mainImage) {
-      mainImageUrl = await uploadFile(formData.mainImage);
-    }
+
     if (!formData.name) {
       toast.error("u forget the name.");
 
@@ -109,11 +92,17 @@ const AddProduct = () => {
       setErr("please enter a valid stock");
       return;
     }
+    let mainImageUrl = "";
+    if (formData.mainImage) {
+      mainImageUrl = await uploadFile(formData.mainImage, "images_product");
+    }
     // Upload additional images
     let additionalImageUrls = [];
     if (formData.additionalImages.length > 0) {
       additionalImageUrls = await Promise.all(
-        formData.additionalImages.map(async (img) => await uploadFile(img))
+        formData.additionalImages.map(
+          async (img) => await uploadFile(img, "images_product")
+        )
       );
     }
 
@@ -133,7 +122,7 @@ const AddProduct = () => {
         {
           name: formData.name,
           prix: formData.prix,
-          category: categories,
+          category: formData.category,
           stock: formData.stock,
           description: formData.description,
           mainImage: mainImageUrl,
@@ -163,6 +152,65 @@ const AddProduct = () => {
       setErr("error in adding product please try aggain ");
       toast.error("This didn't work.");
     }
+  };
+  //to add new category
+  const [newCategory, setNewCategory] = useState();
+  const addcategory = () => {
+    if (!newCategory) {
+      return;
+    } else {
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? "animate-enter" : "animate-leave"
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+        >
+          <div className="flex-1 w-0 p-4">
+            <div className="flex items-start">
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium text-gray-900">
+                  do you wanna add categorye {newCategory}
+                </p>
+                <p className="mt-1 text-sm text-gray-500">
+                  Sure! 8:30pm works great!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex border-l border-gray-200">
+            <button
+              onClick={async () => {
+                try {
+                  const res = await axios.post(
+                    "http://localhost:5000/api/product/cat/addCP",
+                    { newCategory },
+                    { withCredentials: true }
+                  );
+                } catch (err) {
+                  console.log(err);
+                }
+                console.log("yes i wanna add");
+                toast.remove();
+              }}
+              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              add
+            </button>
+            <button
+              onClick={() => {
+                console.log("no i wanna add");
+                toast.remove();
+              }}
+              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              close
+            </button>
+          </div>
+        </div>
+      ));
+      console.log(newCategory);
+    }
+    setNewCategory("");
   };
 
   return (
@@ -200,18 +248,47 @@ const AddProduct = () => {
                       placeholder="Enter description"
                     />
                   </div>
-                  <div className="md:col-span-5">
-                    <label htmlFor="category">Category (comma-separated)</label>
-                    <input
-                      type="text"
-                      name="category"
-                      id="category"
-                      className="border h-10 mt-1 rounded px-4 w-full bg-gray-50 focus:ring-gray-400"
-                      value={formData.category}
-                      onChange={handleChange}
-                      placeholder="Enter categories"
-                    />
+                  <div className="md:col-span-5 flex justify-between items-center">
+                    <div className=" w-1/2">
+                      <div>
+                        <label htmlFor="category">Category</label>
+                        <select
+                          name="category"
+                          id="category"
+                          className="border h-10 mt-1 rounded px-4 w-full bg-gray-50 focus:ring-gray-400"
+                          value={formData.category}
+                          onChange={handleChange}
+                        >
+                          <option value="">Select a category</option>
+                          {cat.map((category) => (
+                            <option
+                              key={category._id}
+                              value={category.category}
+                            >
+                              {" "}
+                              {/* Use category.category */}
+                              {category.category}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="name">add</label>
+                      <IoMdAddCircle onClick={addcategory} color="green" />
+                      <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 focus:ring-gray-400"
+                        value={newCategory}
+                        onChange={(e) => {
+                          setNewCategory(e.target.value);
+                        }}
+                      />
+                    </div>
                   </div>
+
                   <div className="md:col-span-3">
                     <label htmlFor="prix">Price</label>
                     <input

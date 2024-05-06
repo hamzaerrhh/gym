@@ -7,3 +7,5 @@ const EventSchema = mongoose.Schema({
   dateTimeEnd: { type: Number, require: true },
   localisation: { type: String, require: true },
 });
+const Event = mongoose.model.Event || mongoose.model("events", EventSchema);
+export default Event;

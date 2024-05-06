@@ -12,8 +12,8 @@ const prodyctShema = mongoose.Schema(
     },
     prix: { type: Number, require: true },
     category: {
-      type: Array(String),
-      require: true,
+      type: String,
+      required: true,
     },
     stock: Number,
     rate: {
@@ -30,7 +30,6 @@ const prodyctShema = mongoose.Schema(
       default: 0,
     },
     mainImage: String,
-    images: [{ type: String }],
     comments: {
       type: {
         comentaire: String,

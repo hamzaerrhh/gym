@@ -7,12 +7,13 @@ import Layout from "./pages/Layout";
 import Product from "./pages/adminPages/Product";
 import AddProduct from "./pages/adminPages/card/AddProduct";
 import Club from "./pages/adminPages/Club";
-import User from "./pages/adminPages/User";
+import Users from "./pages/adminPages/Users";
 import Event from "./pages/adminPages/Event";
 import Admin from "./pages/adminPages/Admin";
 import Setting from "./pages/adminPages/Setting";
 import Foode from "./pages/adminPages/Foode";
 import Appoinements from "./pages/adminPages/card/Appoinements";
+import AddFood from "./pages/adminPages/add/AddFood";
 
 function App() {
   const { user } = useAuthContext();
@@ -33,13 +34,14 @@ function App() {
           <Route index element={<Product />} />
           <Route path="/product" element={<Product />} />
           <Route path="/club" element={<Club />} />
-          <Route path="/users" element={<User />} />
+          <Route path="/users" element={<Users />} />
           <Route path="/event" element={<Event />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/setting" element={<Setting />} />
           <Route path="/food" element={<Foode />} />
           <Route path="/appoinements" element={<Appoinements />} />
           <Route path="/addProduct" element={<AddProduct />} />
+          <Route path="/food/add" element={<AddFood />} />
         </Route>
       )}
     </Routes>

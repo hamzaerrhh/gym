@@ -1,4 +1,3 @@
-import cloudinary from "../helper/cloud.js";
 import Product from "../models/product.js";
 const ProductController = {
   add: async (req, res) => {
@@ -48,16 +47,40 @@ const ProductController = {
     }
   },
   edit: async (req, res) => {
-    console.log("start editing");
-    //find the producte
-    //const id = req.params()
+    try {
+      console.log("start editing");
 
-    //get the data and modify
+      const id = req.params.productId;
+      console.log(req.body);
+      console.log(id);
 
-    //save and response to client
+      // Update the product
+      const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+
+      // Respond with the updated product
+      res.json(updatedProduct);
+    } catch (error) {
+      console.error("Error editing product:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while editing the product" });
+    }
   },
-  delet: async (reqq, res) => {
+  delet: async (req, res) => {
+    const id = req.params.id;
     //find the product
+    try {
+      let product = await Product.findByIdAndDelete(id);
+      if (!product) {
+        return res.status(404).json({ message: "Could not find product." });
+      }
+      res.status(201).json({ msg: "delet succes" });
+    } catch (err) {
+      console.log(err);
+      return res.status(401).send({ msg: "err" });
+    }
     //delete and save
     //resonse to client
   },
