@@ -11,5 +11,6 @@ route.post("/add", requireAuth, requireAdmin, ProductController.add);
 route.get("/", requireAuth, ProductController.getAll);
 route.put("/:productId", requireAuth, requireAdmin, ProductController.edit);
 route.delete("/:id", requireAuth, requireAdmin, ProductController.delet);
+route.get("/:id", requireAuth, ProductController.getById);
 
 export default route;

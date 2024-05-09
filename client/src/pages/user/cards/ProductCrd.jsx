@@ -37,11 +37,7 @@ const ProductCard = ({ data }) => {
                   </button>
                 </div>
                 <img
-                  src={
-                    data && data.mainImage
-                      ? data.mainImage
-                      : "https://images.unsplash.com/photo-1577982787983-e07c6730f2d3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2059&q=80"
-                  }
+                  src={data.mainImage}
                   alt="Just a flower"
                   className="rounded-2xl"
                   style={{ width: "400px", height: "300px" }} // Adjust width and height as needed
@@ -49,8 +45,9 @@ const ProductCard = ({ data }) => {
               </div>
               <div className="flex-auto justify-evenly">
                 <div className=" text-white font-bold pb-2">{data.name}</div>
-
                 <div className="flex flex-wrap ">
+                  <div className=" font-mono"> {data.description}</div>
+
                   <div className="w-full flex-none text-sm flex items-center text-gray-600">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

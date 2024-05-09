@@ -33,7 +33,9 @@ const Food = () => {
     <div className="container p-2 mx-auto sm:p-4 dark:text-gray-800">
       <div className=" flex items-center mx-5 justify-between">
         <h2 className="mb-4 text-2xl font-semibold leading-tight">Foods</h2>
-        <h2> add food</h2>
+        <a href="/food/add">
+          <h2> add food</h2>
+        </a>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full text-xs">

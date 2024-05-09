@@ -68,6 +68,17 @@ const ProductController = {
         .json({ error: "An error occurred while editing the product" });
     }
   },
+  getById: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const product = await Product.findById(id);
+      console.log(product);
+      return res.status(201).json({ product });
+    } catch (err) {
+      console.log(err);
+      return res.status(401);
+    }
+  },
   delet: async (req, res) => {
     const id = req.params.id;
     //find the product
@@ -76,7 +87,8 @@ const ProductController = {
       if (!product) {
         return res.status(404).json({ message: "Could not find product." });
       }
-      res.status(201).json({ msg: "delet succes" });
+
+      return res.status(201).json({ msg: "delet succes" });
     } catch (err) {
       console.log(err);
       return res.status(401).send({ msg: "err" });

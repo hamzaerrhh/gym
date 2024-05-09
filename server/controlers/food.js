@@ -7,15 +7,7 @@ const Action = {
       console.log(req.body);
 
       // Verify data entry
-      const {
-        name,
-        prix,
-        ingrediens,
-        description,
-        info,
-        mainImage,
-        additionalImages,
-      } = req.body;
+      const { name, prix, ingrediens, description, info, mainImage } = req.body;
 
       if (
         !name ||
@@ -39,7 +31,6 @@ const Action = {
         ingrediens,
         description,
         info,
-        additionalImages,
         mainImage,
       });
       await food.save();

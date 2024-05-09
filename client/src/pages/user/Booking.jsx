@@ -1,68 +1,44 @@
-import React, { useEffect, useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { add } from "date-fns";
-const MyCalendar = () => {
-  /*
-get api (push time,get)
-    */
-  const [clickid, isClicked] = useState(false);
-  // Create a new Date object representing the current date
-  const currentDate = new Date();
-  const options = {
-    weekday: "short", // Abbreviated weekday name (e.g., "Sat")
-    day: "2-digit", // Two-digit day of the month (e.g., "04")
-    month: "short", // Abbreviated month name (e.g., "May")
-    year: "numeric", // Full year (e.g., "2024")
-  };
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-  const [date, setDate] = useState(new Date());
-  const [formatDate, setFormatDate] = useState(() =>
-    date.toLocaleDateString("en-US", options)
-  );
-
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-    setFormatDate(newDate.toLocaleDateString("en-US", options));
-  };
-
-  useEffect(() => {
-    console.log("formatted date", formatDate);
-  }, [formatDate]);
-
-  // Calculate the date three months from now
-  const maxDate = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 3,
-    currentDate.getDate()
-  );
-
-  /////the time
-  const getTimes = () => {};
+const Booking = ({ updateDate, type }) => {
+  const [selectedDateTime, setSelectedDateTime] = useState(new Date());
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <h1>Calendar View</h1>
-      {clickid ? (
-        ""
-      ) : (
-        <Calendar
-          onChange={handleDateChange}
-          value={date}
-          minDate={currentDate} // Set minDate to the current date
-          maxDate={maxDate} // Set maxDate to three months from now
-          minDetail="month"
-          view="month"
-          onClickDay={() => {
-            isClicked(true);
-          }}
-          showNeighboringMonth={false}
-        />
-      )}
-
-      {}
+    <div className="flex flex-col items-center justify-center bg-gray-100">
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4">Book Appointment</h2>
+        <div className="flex flex-col space-y-4">
+          <div className="flex items-center space-x-4">
+            <label className="text-sm font-medium">Select Date and Time:</label>
+            <DatePicker
+              selected={selectedDateTime}
+              onChange={(date) => {
+                setSelectedDateTime(date);
+                updateDate(date);
+              }}
+              showTimeSelect
+              timeIntervals={60}
+              dateFormat="MMMM d, yyyy h aa"
+              filterDate={(date) => {
+                // Exclude Sundays (0) and Saturdays (6)
+                return date.getDay() !== 0 && date.getDay() !== 6;
+              }}
+              filterTime={(time) => {
+                // Limit selectable hours from 9:00 to 12:00 and from 14:00 to 21:00
+                const hours = time.getHours();
+                return (
+                  (hours >= 9 && hours < 12) || (hours >= 14 && hours <= 21)
+                );
+              }}
+              className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default MyCalendar;
+export default Booking;

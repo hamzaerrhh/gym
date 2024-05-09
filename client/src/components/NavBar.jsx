@@ -7,10 +7,17 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../redux/reducere/cartSlice";
 import { FaShoppingCart } from "react-icons/fa";
+import CardShop from "./CardShop";
 
 const NavBar = () => {
   const { user, dispatch } = useAuthContext();
+  const [open, setOpen] = useState(false);
+
   const action = useDispatch();
+  const updateOpen = (newValue) => {
+    setOpen(newValue);
+  };
+
   const cartItems = useSelector((state) => state.cart.items);
   const logout = async () => {
     //clear cart
@@ -48,7 +55,13 @@ const NavBar = () => {
             <div className="relative">
               <div className="bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center">
                 <span>{cartItems.length}</span>
-                <FaShoppingCart className="ml-1" />
+                <button
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                >
+                  <FaShoppingCart className="ml-1" />
+                </button>
               </div>
               <div className="absolute w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
             </div>
@@ -108,6 +121,7 @@ const NavBar = () => {
             </ul>
           </div>
         </div>
+        {open && <CardShop open={open} action={updateOpen} />}
       </div>
     </>
   );

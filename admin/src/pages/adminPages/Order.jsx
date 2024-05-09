@@ -1,143 +1,114 @@
 import { useEffect, useState } from "react";
-import { faker } from "@faker-js/faker";
-import {
-  FiChevronUp,
-  FiChevronDown,
-  FiCheckCircle,
-  FiXCircle,
-} from "react-icons/fi"; // Import react icons
-import { Link } from "react-router-dom"; // Import icons
 import axios from "axios";
-import { FaCheckCircle } from "react-icons/fa";
-import { GiConfirmed } from "react-icons/gi";
-
 import { IoMdCloseCircle } from "react-icons/io";
+import { GrView } from "react-icons/gr";
+import { GiConfirmed } from "react-icons/gi";
+import toast, { Toaster } from "react-hot-toast";
+import Product from "./Product";
+import ChekOut from "./card/ChekOut";
 
 const Order = () => {
-  const [data, setData] = useState(() => generateOrders(100)); // Generate initial order data
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState(null);
-  const [sortOrder, setSortOrder] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [isToastVisible, setIsToastVisible] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
+
   const itemsPerPage = 10; // Number of items per page
 
-  // Function to generate fake order data
-  function generateOrders(count) {
-    const orders = [];
-    for (let i = 0; i < count; i++) {
-      orders.push({
-        prix: parseFloat(faker.number.float({ min: 1, max: 999 }).toFixed(3)), // Modify prix to have 3 numbers after the decimal point
-        image: faker.image.avatar(),
-        fullName: faker.name.firstName() + " " + faker.name.lastName(),
-        phoneNumber: faker.phone.imei(),
-        product: faker.commerce.productName(),
-        address: faker.address.streetAddress(),
-        pay: "bu cart",
-        timeAdd: faker.date.past(),
-        confirmed: faker.datatype.boolean(),
-        rejected: faker.datatype.boolean(),
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      let res = await axios.get("http://localhost:5000/api/order", {
+        withCredentials: true,
       });
-    }
-    return orders;
-  }
-
-  // Search functionality with debounce
-  const handleSearch = (value) => {
-    setSearchTerm(value);
-    setCurrentPage(1); // Reset pagination when searching
-  };
-
-  // Sorting functionality
-  const sortedData = () => {
-    if (sortBy && sortOrder) {
-      return [...data].sort((a, b) => {
-        if (typeof a[sortBy] === "number" && typeof b[sortBy] === "number") {
-          return sortOrder === "asc"
-            ? a[sortBy] - b[sortBy]
-            : b[sortBy] - a[sortBy];
-        } else {
-          return sortOrder === "asc"
-            ? a[sortBy].toString().localeCompare(b[sortBy].toString())
-            : b[sortBy].toString().localeCompare(a[sortBy].toString());
-        }
-      });
-    }
-    return data;
-  };
-
-  const handleSort = (field) => {
-    if (field === sortBy) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(field);
-      setSortOrder("asc");
+      setOrders(res.data.orders);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   // Pagination functionality
-
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  const handleView = (order) => {
+    setIsToastVisible(true);
+    toast(() => (
+      <ChekOut order={order} onClose={() => setIsToastVisible(false)} />
+    ));
+  };
+
+  const handleReject = (order) => {
+    try {
+      toast.custom(() => (
+        <div
+          className={`${
+            true ? "animate-enter" : "animate-leave"
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+        >
+          <div className="flex-1 w-0 p-4">
+            <div className="flex items-start">
+              remove order
+              <div className="flex-shrink-0 pt-0.5">{order.info.name}</div>
+            </div>
+          </div>
+          <div className="flex border-l border-gray-200">
+            <button
+              onClick={() => toast.remove()}
+              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              Close
+            </button>
+            <button
+              onClick={async () => {
+                try {
+                  const res = await axios.delete(
+                    `http://localhost:5000/api/order/${order._id}`,
+                    { withCredentials: true }
+                  );
+                  console.log(res);
+                } catch (err) {
+                  console.log(err);
+                }
+                toast.remove();
+              }}
+              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              confirme
+            </button>
+          </div>
+        </div>
+      ));
+    } catch {}
+  };
+
+  console.log("orders", orders);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedData()
-    .filter((order) =>
-      order.fullName.toLowerCase().startsWith(searchTerm.toLowerCase())
-    )
-    .slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="container p-2 mx-auto sm:p-4 dark:text-gray-800">
       <h2 className="mb-4 text-2xl font-semibold leading-tight">Orders</h2>
-      <div className="mb-4 w-full flex flex-row justify-between px-10">
-        <input
-          type="text"
-          placeholder="Search by name..."
-          className="border p-2"
-          value={searchTerm}
-          onChange={(e) => handleSearch(e.target.value)}
-        />
-        <a href="/addOrder">Add Order</a>
-      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full text-xs">
           <thead className="dark:bg-gray-300">
             <tr className="text-left">
-              <th className="p-3" onClick={() => handleSort("prix")}>
-                <div className="flex gap-2 justify-center">
-                  Prix
-                  {sortBy === "prix" &&
-                    (sortOrder === "asc" ? <FiChevronUp /> : <FiChevronDown />)}
-                </div>
-              </th>
-              <th className="p-3">
-                <div className="flex gap-2 justify-center">Images</div>
-              </th>
-
-              <th className="p-3">
-                <div className="flex gap-2 justify-center">Full Name</div>
-              </th>
-
-              <th className="p-3">Phone Number</th>
-              <th className="p-3">Address</th>
-
-              <th className="p-3" onClick={() => handleSort("timeAdd")}>
-                <div className="flex gap-2 justify-center">
-                  Time Added
-                  {sortBy === "timeAdd" &&
-                    (sortOrder === "asc" ? <FiChevronUp /> : <FiChevronDown />)}
-                </div>
-              </th>
-              <th>Pay Method</th>
-
-              <th>Product Demand</th>
-              <th className="p-3">Confirmed</th>
-              <th className="p-3">Rejected</th>
-              <th className="p-3">
-                <div className="flex gap-2 justify-center">Submit</div>
-              </th>
+              <th className="p-3 text-center">Full Name</th>
+              <th className="p-3 text-center">Phone Number</th>
+              <th className="p-3 text-center">Address</th>
+              <th className="p-3 text-center">Time Added</th>
+              <th className="p-3 text-center">Pay Method</th>
+              <th className="p-3 text-center">Product Demand</th>
+              <th className=" p-2 text-center"> prix </th>
+              <th className="p-2 text-center">Confirmed</th>
+              <th className="p-2 text-center">Rejected</th>
+              <th className="p-2 text-center">Submit</th>
             </tr>
           </thead>
           <tbody>
@@ -146,26 +117,35 @@ const Order = () => {
                 key={index}
                 className="border-b border-opacity-20 dark:border-gray-300 dark:bg-gray-50"
               >
-                <td className="p-3">{order.prix}</td>
-
+                <td className="p-3">{`${order.info.name} ${order.info.lastName}`}</td>
+                <td className="p-3">{order.info.phone}</td>
+                <td className="p-3">{order.info.adress}</td>
                 <td className="p-3">
-                  <img width={18} src={order.image} />
+                  {order.createdAt ? order.createdAt.toString() : "N/A"}
                 </td>
-                <td className="p-3">{order.fullName}</td>
-                <td className="p-3">{order.phoneNumber}</td>
-                <td className="p-3">{order.address}</td>
-                <td className="p-3">{order.timeAdd.toString()}</td>
-
-                <td className="p-3">{order.pay}</td>
-                <td className="p-3">proteene,chaha</td>
-                <td className="p-3">
-                  <FaCheckCircle color="green " />
+                <td className="p-3 text-center">{order.pay_methode}</td>
+                <td className="p-3 text-center">{order.order.length}</td>
+                <td> {order.total_price} </td>
+                <td className="p-3 text-center">
+                  <GiConfirmed color="green" size={20} />
                 </td>
-                <td>
-                  <IoMdCloseCircle color="red" />
+                <td className="p-3 text-center">
+                  <button
+                    onClick={() => {
+                      handleReject(order);
+                    }}
+                  >
+                    <IoMdCloseCircle color="red" size={20} />
+                  </button>
                 </td>
-                <td>
-                  <GiConfirmed />
+                <td className="p-3 text-center">
+                  <button
+                    onClick={() => {
+                      handleView(order);
+                    }}
+                  >
+                    <GrView color="blue" size={20} />
+                  </button>
                 </td>
               </tr>
             ))}
@@ -181,15 +161,16 @@ const Order = () => {
           Previous
         </button>
         <div>
-          Page {currentPage} of {Math.ceil(sortedData().length / itemsPerPage)}
+          Page {currentPage} of {Math.ceil(orders.length / itemsPerPage)}
         </div>
         <button
           onClick={() => paginate(currentPage + 1)}
-          disabled={indexOfLastItem >= sortedData().length}
+          disabled={indexOfLastItem >= orders.length}
           className="px-4 py-2 bg-gray-200 rounded-md"
         >
           Next
         </button>
+        <Toaster position="top-right" reverseOrder={true} />
       </div>
     </div>
   );

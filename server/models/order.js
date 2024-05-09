@@ -21,12 +21,23 @@ const OrderSchema = mongoose.Schema(
     total_price: { type: Number, required: true },
     verified: { type: Boolean, default: false },
     info: {
-      number: Number,
+      numberUrg: Number,
       adress: String,
+      city: String,
+      email: String,
+      zip: String,
+      name: String,
+      lastName: String,
+      phone: String,
+    },
+    pay_methode: {
+      type: String,
+      enum: ["cart", "homme delevery"],
+      default: "homme delevery",
     },
   },
   {
-    Timestamp,
+    timestamps: true,
   }
 );
 

@@ -38,10 +38,22 @@ const Sidebar = () => {
                 <div>Clubs</div>
               </button>{" "}
             </a>
+            <a href="/appoienment">
+              <button className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>appoienemnt</div>
+              </button>
+            </a>
             <a href="/product">
               <button className="flex items-center">
                 <FaBasketShopping className="mr-2" />
                 <div>Products</div>
+              </button>{" "}
+            </a>
+            <a href="/food">
+              <button className="flex items-center">
+                <FaBasketShopping className="mr-2" />
+                <div>Food</div>
               </button>{" "}
             </a>
             <a href="/users">

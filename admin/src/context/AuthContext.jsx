@@ -21,12 +21,15 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const getData = async () => {
       const token = Cookies.get("token");
+      console.log("start geting", token);
       if (token) {
         try {
           const res = await axios.get("http://localhost:5000/api/auth/data", {
             withCredentials: true,
           });
+          console.log("fenish geting");
           dispatch({ type: "LOGIN", payload: res.data.user });
+          console.log(res);
         } catch (err) {
           console.log(err);
         }

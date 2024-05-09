@@ -131,7 +131,6 @@ const Product = () => {
   };
   const handleCloseEdit = () => {
     setEdit(false);
-    set;
   };
   const closeView = () => {
     console.log("closing view");

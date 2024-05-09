@@ -16,7 +16,6 @@ const AddFood = () => {
     carbs: 0,
     ingrediens: "",
     mainImage: "",
-    additionalImages: [], // Store multiple images in an array
   });
 
   const handleChange = (e) => {
@@ -26,14 +25,6 @@ const AddFood = () => {
   const handleMainImageChange = (e) => {
     const image = e.target.files[0];
     setFormData((prevFormData) => ({ ...prevFormData, mainImage: image }));
-  };
-
-  const handleAdditionalImagesChange = (e) => {
-    const files = Array.from(e.target.files); // Convert FileList to array
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      additionalImages: [...prevFormData.additionalImages, ...files],
-    }));
   };
 
   const handleSubmit = async (e) => {
@@ -131,13 +122,6 @@ const AddFood = () => {
       setErr("please enter a valid stock");
       return;
     }
-    // Upload additional images
-    let additionalImageUrls = [];
-    if (formData.additionalImages.length > 0) {
-      additionalImageUrls = await Promise.all(
-        formData.additionalImages.map(async (img) => await uploadFile(img))
-      );
-    }
 
     if (!mainImageUrl) {
       toast.error("u forget the images.");
@@ -163,13 +147,24 @@ const AddFood = () => {
           },
           description: formData.description,
           mainImage: mainImageUrl,
-          additionalImages: additionalImageUrls,
         },
         {
           withCredentials: true,
         }
       );
 
+      setFormData({
+        name: "",
+        prix: "",
+        ingrediens: "",
+
+        fat: 0,
+        protein: 0,
+        carbs: 0,
+
+        description: "",
+        mainImage: null,
+      });
       console.log("Response:", response.data);
 
       // Reset form data after successful submission
@@ -291,35 +286,7 @@ const AddFood = () => {
                       onChange={handleMainImageChange}
                     />
                   </div>
-                  <div className="col-span-2">
-                    <label htmlFor="additionalImages">Additional Images</label>
-                    <input
-                      type="file"
-                      name="additionalImages"
-                      id="additionalImages"
-                      accept="image/*"
-                      multiple // Allow multiple files selection
-                      className="form-input"
-                      onChange={handleAdditionalImagesChange}
-                    />
-                  </div>
                 </div>
-
-                {/* Preview images */}
-                {formData.additionalImages &&
-                  formData.additionalImages.length > 0 && (
-                    <div className="flex justify-start py-4 align-middle items-center">
-                      {formData.additionalImages.map((image, index) => (
-                        <div className="w-20 h-20 mr-2" key={index}>
-                          <img
-                            src={URL.createObjectURL(image)}
-                            alt={`Image ${index}`}
-                            className="object-cover w-full h-full"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
 
                 <div className="flex justify-center items-center">
                   {loading && <ClimbingBoxLoader color="green" size={10} />}

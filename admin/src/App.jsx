@@ -14,6 +14,8 @@ import Setting from "./pages/adminPages/Setting";
 import Foode from "./pages/adminPages/Foode";
 import Appoinements from "./pages/adminPages/card/Appoinements";
 import AddFood from "./pages/adminPages/add/AddFood";
+import Appoinement from "./pages/adminPages/Appoinement";
+import AddClub from "./pages/adminPages/add/AddClub";
 
 function App() {
   const { user } = useAuthContext();
@@ -29,6 +31,7 @@ function App() {
       )}
       {user && user.role == "admin" && (
         <Route path="/" element={<Layout />}>
+          <Route path="/appoienment" element={<Appoinement />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/orders" element={<Order />} />
           <Route index element={<Product />} />
@@ -42,6 +45,7 @@ function App() {
           <Route path="/appoinements" element={<Appoinements />} />
           <Route path="/addProduct" element={<AddProduct />} />
           <Route path="/food/add" element={<AddFood />} />
+          <Route path="/club/add" element={<AddClub />} />
         </Route>
       )}
     </Routes>

@@ -13,12 +13,11 @@ const foodSchema = mongoose.Schema(
     },
     mainImage: { type: String, required: true },
 
-    additionalImages: [String],
     order: { type: Number, default: 0 },
     favorite: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
 
-const Food = mongoose.model("Food", foodSchema); // Corrected model name to "Food"
+const Food = mongoose.model.Food || mongoose.model("Food", foodSchema); // Corrected model name to "Food"
 export default Food;

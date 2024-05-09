@@ -9,6 +9,8 @@ import ForgetPass from "./pages/global/ForgetPass";
 import EditPass from "./pages/global/EditPass";
 import Clubs from "./pages/global/Clubs";
 import PersonaleTraining from "./pages/user/PersonaleTraining";
+//import the images
+import { massage, spa, keni } from "./assets";
 
 import Layout from "./Layout";
 import { Spa } from "./pages/user/Spa";
@@ -19,14 +21,17 @@ import OurStore from "./pages/user/OurStore";
 import ProductDetaile from "./pages/user/ProductDetaile";
 import BookCoaching from "./pages/user/BookCoaching";
 import Booking from "./pages/user/Booking";
-import Massage from "./pages/user/Massage";
-import Keni from "./pages/user/Keni";
-import SpaPage from "./pages/user/SpaPage";
+
+import Chekout from "./pages/user/Chekout";
+import Test from "./pages/user/Test";
+import BookingPage from "./pages/user/BookingPage";
 
 function App() {
   return (
     <Routes>
+      <Route path="/test" element={<Test />} />
       <Route path="/" element={<Layout />}>
+        <Route path="/chekout" element={<Chekout />} />
         <Route path="/Clubs" element={<Clubs />} />
         <Route path="/forget" element={<ForgetPass />} />
         <Route path="/forget/:forgetToken" element={<EditPass />} />
@@ -43,9 +48,42 @@ function App() {
         <Route path="/store/:id" element={<ProductDetaile />} />
         <Route path="/findCoach" element={<BookCoaching />} />
         <Route path="/findCoach/:id" element={<Booking />} />
-        <Route path="/spa/massage" element={<Massage />} />
-        <Route path="/spa/keni" element={<Keni />} />
-        <Route path="/spa/spa" element={<SpaPage />} />
+        <Route
+          path="/spa/massage"
+          element={
+            <BookingPage
+              image={massage}
+              title1={"massage"}
+              title2={"hhhh"}
+              para={"hello baby"}
+              type={"massage"}
+            />
+          }
+        />
+        <Route
+          path="/spa/keni"
+          element={
+            <BookingPage
+              image={keni}
+              title1={"keni"}
+              title2={"hhhh"}
+              para={"hello baby"}
+              type={"kenie"}
+            />
+          }
+        />
+        <Route
+          path="/spa/spa"
+          element={
+            <BookingPage
+              image={spa}
+              title1={"test"}
+              title2={"hhhh"}
+              para={"hello baby"}
+              type={"spa"}
+            />
+          }
+        />
       </Route>
     </Routes>
   );

@@ -10,6 +10,9 @@ import adminRout from "./routes/admin.js";
 import productRoutes from "./routes/Product.js";
 import foodRoute from "./routes/food.js";
 import catRoute from "./routes/category.js";
+import orderRoute from "./routes/order.js";
+import appoinementsRoute from "./routes/appoinement.js";
+import clubRout from "./routes/clubs.js";
 
 dotenv.config();
 
@@ -45,6 +48,9 @@ app.use("/api/admin", adminRout);
 app.use("/api/product", productRoutes);
 app.use("/api/food", foodRoute);
 app.use("/api/product/cat", catRoute);
+app.use("/api/order", orderRoute);
+app.use("/api/appoinement", appoinementsRoute);
+app.use("/api/club", clubRout);
 
 const PORT = 5000;
 app.listen(PORT, () => {
