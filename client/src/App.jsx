@@ -25,13 +25,16 @@ import Booking from "./pages/user/Booking";
 import Chekout from "./pages/user/Chekout";
 import Test from "./pages/user/Test";
 import BookingPage from "./pages/user/BookingPage";
+import ChekoutFood from "./pages/user/ChekoutFood";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   return (
     <Routes>
       <Route path="/test" element={<Test />} />
       <Route path="/" element={<Layout />}>
-        <Route path="/chekout" element={<Chekout />} />
+        <Route path="/chekout/product" element={<Chekout />} />
+        <Route path="/chekout/food" element={<ChekoutFood />} />
         <Route path="/Clubs" element={<Clubs />} />
         <Route path="/forget" element={<ForgetPass />} />
         <Route path="/forget/:forgetToken" element={<EditPass />} />
@@ -85,6 +88,7 @@ function App() {
           }
         />
       </Route>
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 }

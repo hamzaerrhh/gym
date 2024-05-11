@@ -10,16 +10,16 @@ const Action = {
     try {
       console.log(req.body);
 
-      //add the apppoinement
-      // const appoinement = new Appoinement({
-      //   user_id: req.user._id,
-      //   info: req.body.info,
-      //   appointmentType: req.body.appointmentType,
-      //   reservationTime: req.body.reservationTime,
-      // });
+      // add the apppoinement
+      const appoinement = new Appoinement({
+        user_id: req.user._id,
+        info: req.body.info,
+        appointmentType: req.body.appointmentType,
+        reservationTime: req.body.reservationTime,
+      });
 
-      // await appoinement.save();
-      //find user by id
+      await appoinement.save();
+      // find user by id
 
       let qrcodeData = `UserID=${req.user._id}&AppointmentID=ddkdjdjdhjdvd_jkj`;
       let imgPath = await generate(qrcodeData);

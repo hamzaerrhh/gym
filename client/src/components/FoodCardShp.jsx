@@ -7,10 +7,10 @@ import {
   incrementQuantity,
   decrementQuantity,
   clearCart,
-} from "../redux/reducere/cartSlice";
+} from "../redux/reducere/foodSlice";
 
-export default function CardShop({ open, action }) {
-  const cartItems = useSelector((state) => state.cart.items);
+export default function FoodCardShop({ open, action }) {
+  const cartItems = useSelector((state) => state.food.items);
   const [total, setTotal] = useState();
   console.log(cartItems);
   const dispath = useDispatch();
@@ -28,14 +28,14 @@ export default function CardShop({ open, action }) {
       return;
     }
     console.log("nioo");
-    dispath(decrementQuantity(product.product._id));
+    dispath(decrementQuantity(product.food._id));
   };
 
   const countMax = () => {
     let max = 0;
     if (cartItems) {
       cartItems.map(
-        (produit) => (max = +(produit.product.prix * produit.quantity))
+        (produit) => (max = +(produit.food.prix * produit.quantity))
       );
     }
     console.log(max);
@@ -77,7 +77,7 @@ export default function CardShop({ open, action }) {
                     <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-lg font-medium text-gray-900">
-                          Shopping cart
+                          Food Shopping cart
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
@@ -99,14 +99,11 @@ export default function CardShop({ open, action }) {
                             className="-my-6 divide-y divide-gray-200"
                           >
                             {cartItems.map((product) => (
-                              <li
-                                key={product.product.id}
-                                className="flex py-6"
-                              >
+                              <li key={product.food.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={product.product.mainImage}
-                                    alt={product.product.name}
+                                    src={product.food.mainImage}
+                                    alt={product.food.name}
                                     className="h-full w-full object-cover object-center"
                                   />
                                 </div>
@@ -114,9 +111,9 @@ export default function CardShop({ open, action }) {
                                 <div className="ml-4 flex flex-1 flex-col">
                                   <div>
                                     <div className="flex justify-between text-base font-medium text-gray-900">
-                                      <h3>{product.product.name}</h3>
+                                      <h3>{product.food.name}</h3>
                                       <p className="ml-4">
-                                        {product.product.prix}dh
+                                        {product.food.prix}dh
                                       </p>
                                     </div>
                                   </div>
@@ -127,7 +124,7 @@ export default function CardShop({ open, action }) {
                                     <div className="flex gap-2">
                                       <button
                                         onClick={() => {
-                                          addQty(product.product._id);
+                                          addQty(product.food._id);
                                         }}
                                         className="px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded"
                                       >
@@ -146,7 +143,7 @@ export default function CardShop({ open, action }) {
                                       <button
                                         type="button"
                                         onClick={() => {
-                                          remove(product.product._id);
+                                          remove(product.food._id);
                                         }}
                                         className="font-medium text-red-600 hover:text-red-500"
                                       >
@@ -170,7 +167,7 @@ export default function CardShop({ open, action }) {
 
                       <div className="mt-6">
                         <a
-                          href="/chekout/product"
+                          href="/chekout/food"
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
                           Checkout

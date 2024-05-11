@@ -61,14 +61,73 @@ const Admin = {
   get: async (req, res) => {
     const role = req.params.role;
     try {
-      if (role != "user" && role != "coach" && role != "admin") {
+      if (
+        role != "user" &&
+        role != "coach" &&
+        role != "admin" &&
+        role != "all"
+      ) {
         return res.status(401).json({ message: "no such role" });
       }
+      if (role === "all") {
+        let users = await User.find().select("-password -__v");
+        return res.status(200).json(users);
+      }
+
       let users = await User.find({ role: role }).select("-password -__v");
       res.status(200).json(users);
     } catch (err) {
       console.log(err);
       return res.status(401).json({ message: "error" });
+    }
+  },
+  editRole: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const role = req.body.role;
+      console.log(id, role);
+
+      try {
+        const user = await User.findById(id);
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+
+        user.role = role;
+        await user.save();
+
+        return res
+          .status(200)
+          .json({ message: "User role updated successfully" });
+      } catch (err) {
+        console.error("Error:", err);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      return res.status(400).json({ message: "Bad request" });
+    }
+  },
+  addGG: async (req, res) => {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+      console.log("messing field");
+      return res.status(400).send({ message: "Missing fields" });
+    }
+
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(password, salt);
+    try {
+      const newUser = new User({
+        username: username,
+        password: hashedPassword,
+        email: email,
+        virified: true,
+        role: "admin",
+      });
+      await newUser.save();
+    } catch (err) {
+      console.log(err);
     }
   },
 };

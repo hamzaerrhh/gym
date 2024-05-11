@@ -13,6 +13,8 @@ import catRoute from "./routes/category.js";
 import orderRoute from "./routes/order.js";
 import appoinementsRoute from "./routes/appoinement.js";
 import clubRout from "./routes/clubs.js";
+import eventRout from "./routes/event.js";
+import foodOrderRoute from "./routes/orderFood.js";
 
 dotenv.config();
 
@@ -51,7 +53,8 @@ app.use("/api/product/cat", catRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/appoinement", appoinementsRoute);
 app.use("/api/club", clubRout);
-
+app.use("/api/event", eventRout);
+app.use("/api/orderFod", foodOrderRoute);
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log("Server is listening on port", PORT);

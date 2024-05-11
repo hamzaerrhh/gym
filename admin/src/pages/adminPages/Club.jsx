@@ -14,6 +14,17 @@ const Club = () => {
     setView(true);
   };
 
+  const delet = async (id) => {
+    try {
+      const res = await axios.delete(`http://localhost:5000/api/club/${id}`, {
+        withCredentials: true,
+      });
+      console.log(err);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const fetchData = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/club", {
@@ -25,6 +36,8 @@ const Club = () => {
     }
   };
   const handleDelete = (club) => {
+    console.log(club);
+
     toast.custom(() => (
       <div
         className={`${
@@ -57,6 +70,13 @@ const Club = () => {
             className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             Close
+          </button>
+          <button
+            onClick={() => {
+              delet(club._id);
+            }}
+          >
+            delete
           </button>
         </div>
       </div>
@@ -135,7 +155,7 @@ const Club = () => {
                     Edit
                   </button>
                   <button
-                    onClick={(club) => handleDelete(club)}
+                    onClick={() => handleDelete(club)}
                     className="text-red-600 hover:text-red-900"
                   >
                     Delete

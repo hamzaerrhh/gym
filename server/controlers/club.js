@@ -30,6 +30,19 @@ const Action = {
       console.log(err);
     }
   },
-  delet: async (req, res) => {},
+  delet: async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      const deletedClub = await Club.findByIdAndDelete(id);
+      if (!deletedClub) {
+        return res.status(404).json({ error: "Club not found" });
+      }
+      res.status(200).json({ message: "Club deleted successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  },
 };
 export default Action;

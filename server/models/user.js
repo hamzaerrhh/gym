@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     forgetToken: String,
     role: {
       type: String,
-      enum: ["user", "admin", "cotch"],
+      enum: ["user", "admin", "coach"],
       default: "user",
     },
   },

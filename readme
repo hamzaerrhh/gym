@@ -1,0 +1,41 @@
+home ************************************\_\_\_************************************
+1/get 7 club whith deadline done
+2/get last 4 event doen
+3/get 4 coach i should add coach first
+
+---
+
+in clubs
+1/feetch all
+2/find by name,type
+3/subscripe comonents
+in entrainement personnel
+
+**\_**add first coaches to admin**\_\_**
+1/get coach
+2/find one
+3/coach page
+4/subscripe coaches
+
+in spa
+1/images
+**\_nouition\_\_**
+1/add cart
+2/feetch
+3/search items
+4/chekout
+5/payment methode
+
+event
+6/booking
+7/reservation list
+
+golbale
+error page
+user should login
+
+admin************\_************
+global setting
+1/choose images for first and second
+2/change text
+3/add appoinment

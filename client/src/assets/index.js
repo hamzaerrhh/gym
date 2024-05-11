@@ -42,6 +42,7 @@ export const event_bg =
 export default {
   event_bg,
   food_bg,
+
   keni,
   vedio_coach,
   proten_gift,

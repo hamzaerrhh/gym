@@ -8,15 +8,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearCart } from "../redux/reducere/cartSlice";
 import { FaShoppingCart } from "react-icons/fa";
 import CardShop from "./CardShop";
+import { MdFoodBank } from "react-icons/md";
+import FoodCardShop from "./FoodCardShp";
 
 const NavBar = () => {
   const { user, dispatch } = useAuthContext();
   const [open, setOpen] = useState(false);
+  const [foodOpen, setFoodOpen] = useState(false);
 
   const action = useDispatch();
   const updateOpen = (newValue) => {
     setOpen(newValue);
   };
+  const upFoodOpen = (value) => {
+    setFoodOpen(value);
+  };
+
+  const foodItems = useSelector((state) => state.food.items);
 
   const cartItems = useSelector((state) => state.cart.items);
   const logout = async () => {
@@ -52,7 +60,17 @@ const NavBar = () => {
             <div className=" hidden md:block">Gym of Gladiator </div>
           </div>
           <div className="flex items-center space-x-4 md:space-x-8">
-            <div className="relative">
+            <div className="relative flex gap-2">
+              <div className="bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center">
+                <span>{foodItems.length}</span>
+                <button
+                  onClick={() => {
+                    setFoodOpen(true);
+                  }}
+                >
+                  <MdFoodBank className="ml-1" />
+                </button>
+              </div>
               <div className="bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center">
                 <span>{cartItems.length}</span>
                 <button
@@ -63,7 +81,6 @@ const NavBar = () => {
                   <FaShoppingCart className="ml-1" />
                 </button>
               </div>
-              <div className="absolute w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
             </div>
             <div className="flex gap-2">
               {user ? (
@@ -122,6 +139,7 @@ const NavBar = () => {
           </div>
         </div>
         {open && <CardShop open={open} action={updateOpen} />}
+        {foodOpen && <FoodCardShop open={foodOpen} action={upFoodOpen} />}
       </div>
     </>
   );

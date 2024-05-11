@@ -5,7 +5,7 @@ import Action from "../controlers/club.js";
 const route = Router();
 
 route.post("/", requireAuth, requireAdmin, Action.add);
-route.get("/", requireAuth, requireAdmin, Action.getAll);
+route.get("/", requireAuth, Action.getAll);
 route.delete("/:id", requireAuth, requireAdmin, Action.delet);
 
 export default route;

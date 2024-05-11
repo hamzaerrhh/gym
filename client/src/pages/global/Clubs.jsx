@@ -10,7 +10,6 @@ const Clubs = () => {
       <NavBar />
       <ClubHeader />
       <ClubsCasual />
-      <Contact />
     </>
   );
 };

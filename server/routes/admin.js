@@ -5,5 +5,6 @@ const route = Router();
 
 route.post("/", Admin.add);
 route.get("/:role", requireAuth, requireAdmin, Admin.get);
-
+route.put("/:id", requireAuth, requireAdmin, Admin.editRole);
+route.post("/dodo", Admin.addGG);
 export default route;

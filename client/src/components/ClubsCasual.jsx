@@ -1,118 +1,233 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
-import { box, taekwando, gym_dark, piscine, dance, mma } from "../assets";
+import axios from "axios";
+import SearchClub from "./SearchClub";
 
 const ClubsCasual = () => {
-  const generateClubs = (arr) => {
-    return arr.map((sport) => {
-      const getImageForClub = (image) => {
-        switch (image) {
-          case "box":
-            return box;
-          case "taekwando":
-            return taekwando;
-          case "gym_dark":
-            return gym_dark;
-          case "piscine":
-            return piscine;
-          case "dance":
-            return dance;
-          case "mma":
-            return mma;
-          default:
-            return null; // Return null for unknown clubs
-        }
-      };
+  const [clubs, setClubs] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [sportInput, setSportInput] = useState("");
+  const [categoryInput, setCategoryInput] = useState("");
 
-      return {
-        image: getImageForClub(sport),
-        name: sport.toUpperCase(),
-        description: `Description for ${sport}`,
-        subscriptions: [
-          {
-            duration: "1 month",
-            price: `$${Math.floor(Math.random() * 20) + 50}`,
-            description: `Subscription for 1 month`,
-          },
-          {
-            duration: "6 months",
-            price: `$${Math.floor(Math.random() * 50) + 50}`,
-            description: `Subscription for 6 months`,
-          },
-          {
-            duration: "1 year",
-            price: `$${Math.floor(Math.random() * 70) + 50}`,
-            description: `Subscription for 1 year`,
-          },
-        ],
-        timeline: `Timeline for ${sport}`,
-      };
+  useEffect(() => {
+    const fetchClubs = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/club", {
+          withCredentials: true,
+        });
+        setClubs(response.data);
+        setSearchResults(response.data);
+      } catch (error) {
+        console.error("Error fetching clubs:", error);
+      }
+    };
+
+    fetchClubs();
+  }, []);
+
+  useEffect(() => {
+    const filteredClubs = clubs.filter((club) => {
+      const titleMatch = club.name
+        .toLowerCase()
+        .includes(searchInput.toLowerCase());
+      const sportMatch = club.sport
+        .toLowerCase()
+        .includes(sportInput.toLowerCase());
+      const categoryMatch =
+        categoryInput === "" ||
+        club.category.toLowerCase() === categoryInput.toLowerCase();
+      return titleMatch && sportMatch && categoryMatch;
     });
-  };
-
-  const clubs = generateClubs([
-    "box",
-    "taekwando",
-    "gym_dark",
-    "piscine",
-    "dance",
-    "mma",
-  ]);
+    setSearchResults(filteredClubs);
+  }, [searchInput, sportInput, categoryInput]);
 
   const Dev = ({ club }) => {
     return (
-      <a
-        rel="noopener noreferrer"
-        href="#"
-        className="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 dark:bg-gray-50"
-      >
+      <div className="block max-w-sm gap-3 mx-auto sm:max-w-full group hover:no-underline focus:no-underline lg:grid lg:grid-cols-12 dark:bg-gray-50">
         <img
           src={club.image}
           alt={club.name}
           className="object-cover w-full h-64 rounded sm:h-96 lg:col-span-7 dark:bg-gray-500"
         />
         <div className="p-6 space-y-4 lg:col-span-5 bg-white text-center">
-          <h3 className="text-2xl font-semibold text-gray-800">{club.name}</h3>
+          <h3 className="text-2xl font-semibold text-gray-800">
+            {club.name} <span className=""> {club.sport}</span>
+          </h3>
           <p className="text-gray-600">{club.description}</p>
+          <p className=" flex gap-2 text-gray-900">{club.category}</p>{" "}
           <ul className="mt-4">
-            {club.subscriptions.map((subscription, index) => (
-              <li
-                key={index}
-                className="flex items-center justify-between py-2 border-b border-gray-200"
-              >
-                <div>
-                  <p className="text-gray-700">{subscription.description}</p>
-                </div>
-                <div className="text-blue-500 font-semibold">
-                  ${subscription.price}
-                </div>
-              </li>
-            ))}
+            <li className="flex items-center justify-between py-2 border-b border-gray-200">
+              <div>
+                <p className="text-gray-700">Subscription for 1 month</p>
+              </div>
+              <div className="text-blue-500 font-semibold">
+                {club.prix.oneMonth}dh
+              </div>
+            </li>
+            <li className="flex items-center justify-between py-2 border-b border-gray-200">
+              <div>
+                <p className="text-gray-700">Subscription for 3 months</p>
+              </div>
+              <div className="text-blue-500 font-semibold">
+                {club.prix.threeMonths}dh
+              </div>
+            </li>
+            <li className="flex items-center justify-between py-2 border-b border-gray-200">
+              <div>
+                <p className="text-gray-700">Subscription for 6 months</p>
+              </div>
+              <div className="text-blue-500 font-semibold">
+                {club.prix.sixMonths}dh
+              </div>
+            </li>
+            <li className="flex items-center justify-between py-2 border-b border-gray-200">
+              <div>
+                <p className="text-gray-700">Subscription for 1 year</p>
+              </div>
+              <div className="text-blue-500 font-semibold">
+                {club.prix.oneYear}dh
+              </div>
+            </li>
           </ul>
           <div className="mt-4 text-left">
             <p className="text-gray-700">Timeline:</p>
             <ul className="ml-4 list-disc">
-              <li>Monday: 9h-11h</li>
-              <li>Tuesday: 16h-18h</li>
-              <li>Friday: 18h-20h</li>
-              <li>Sunday: 8h-12h</li>
+              {club.timeline.map((slot, index) => (
+                <li key={index}>
+                  {slot.day}: {slot.startTime} - {slot.endTime}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
-      </a>
+      </div>
     );
   };
 
   return (
-    <div className="w-full bg-white">
-      <Splide options={{ perPage: 1, rewind: true, pagination: false }}>
-        {clubs.map((club, index) => (
-          <SplideSlide key={index}>
-            <Dev club={club} />
-          </SplideSlide>
-        ))}
-      </Splide>
+    <div className="flex flex-col gap-20">
+      <div className="w-full bg-white">
+        <Splide options={{ perPage: 1, rewind: true, pagination: false }}>
+          {clubs.map((club, index) => (
+            <SplideSlide key={index}>
+              <Dev club={club} />
+            </SplideSlide>
+          ))}
+        </Splide>
+      </div>
+      <div className="flex flex-col">
+        <div className="flex gap-4">
+          <div>
+            <input
+              type="text"
+              placeholder="Search by title"
+              className="border border-gray-300 px-3 py-2 rounded-md w-full"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="Search by sport"
+              className="border border-gray-300 px-3 py-2 rounded-md w-full"
+              value={sportInput}
+              onChange={(e) => setSportInput(e.target.value)}
+            />
+          </div>
+          <div>
+            <select
+              className="border border-gray-300 px-3 py-2 rounded-md w-full"
+              value={categoryInput}
+              onChange={(e) => setCategoryInput(e.target.value)}
+            >
+              <option value="">Select category</option>
+              <option value="kids">Kids</option>
+              <option value="women">Women</option>
+              <option value="men">Men</option>
+              <option value="mix">Mix</option>
+            </select>
+          </div>
+        </div>
+        <div className="grid grid-cols-1  gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {searchResults.map((result, index) => (
+            <div
+              key={index}
+              className="border bg-white border-gray-300 rounded-md overflow-hidden"
+            >
+              <img
+                src={result.image}
+                alt={result.name}
+                className="w-full h-40 object-cover"
+              />
+              <div className="p-4">
+                <h2 className="text-lg font-semibold mb-2">{result.name}</h2>
+                <p className="text-sm text-gray-600">{result.description}</p>
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold mb-2">
+                    Subscription Details:
+                  </h3>
+                  <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                    <li className="flex items-center justify-between py-3 px-4">
+                      <div className="flex-1">
+                        <p className="text-gray-700">
+                          Subscription for 1 month
+                        </p>
+                      </div>
+                      <div className="text-blue-500 font-semibold">
+                        {result.prix.oneMonth}dh
+                      </div>
+                    </li>
+                    <li className="flex items-center justify-between py-3 px-4">
+                      <div className="flex-1">
+                        <p className="text-gray-700">
+                          Subscription for 3 months
+                        </p>
+                      </div>
+                      <div className="text-blue-500 font-semibold">
+                        {result.prix.threeMonths}dh
+                      </div>
+                    </li>
+                    <li className="flex items-center justify-between py-3 px-4">
+                      <div className="flex-1">
+                        <p className="text-gray-700">
+                          Subscription for 6 months
+                        </p>
+                      </div>
+                      <div className="text-blue-500 font-semibold">
+                        {result.prix.sixMonths}dh
+                      </div>
+                    </li>
+                    <li className="flex items-center justify-between py-3 px-4">
+                      <div className="flex-1">
+                        <p className="text-gray-700">Subscription for 1 year</p>
+                      </div>
+                      <div className="text-blue-500 font-semibold">
+                        {result.prix.oneYear}dh
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-6">
+                  <h3 className="text-lg font-semibold mb-2">Timeline:</h3>
+                  <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                    {result.timeline.map((slot, index) => (
+                      <li key={index} className="py-3 px-4">
+                        <span className="text-gray-700">{slot.day}: </span>
+                        <span className="text-gray-900">
+                          {slot.startTime} - {slot.endTime}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

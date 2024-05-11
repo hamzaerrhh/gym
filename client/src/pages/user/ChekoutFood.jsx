@@ -5,19 +5,12 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { clearCart } from "../../redux/reducere/cartSlice";
 
-const Chekout = () => {
+const ChekoutFood = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const products = useSelector((state) => state.cart.items);
+  const food = useSelector((state) => state.food.items);
   const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    if (products.length === 0) {
-      navigate("/store");
-    }
-  }, []);
-
   const [formData, setFormData] = useState({
     name: "",
     last_name: "",
@@ -35,6 +28,14 @@ const Chekout = () => {
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    if (food.length === 0) {
+      navigate("/nurition");
+    }
+  }, []);
+
+  const handlePaypal = () => {};
 
   //   if (cartItems) {
   //     navigate("/");
@@ -58,8 +59,8 @@ const Chekout = () => {
       }
       //send the data
       const res = await axios.post(
-        "http://localhost:5000/api/order/add",
-        { formData, products },
+        "http://localhost:5000/api/orderFod",
+        { formData, food },
         { withCredentials: true }
       );
 
@@ -88,7 +89,7 @@ const Chekout = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold text-white inline-block border-b-4 border-blue-500 pb-1">
-            Checkout product
+            Checkout food
           </h2>
           <Toaster position="top-center" reverseOrder={false} />
         </div>
@@ -187,87 +188,46 @@ const Chekout = () => {
               <h3 className="text-xl font-bold text-white">03</h3>
               <h3 className="text-xl font-bold text-white">Payment method</h3>
             </div>
-            <div className="md:col-span-2">
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    className="w-5 h-5 cursor-pointer"
-                    id="card"
-                    defaultChecked=""
+            <div className="md:col-span-2 w-full">
+              <div className="w-full grid gap-6 sm:grid-cols-4">
+                <button className="w-full h-full">
+                  <img
+                    src="https://images.vexels.com/media/users/3/144838/isolated/preview/0e8ecc882dcf98521ef01d2163416fc9-bitcoin-logo.png"
+                    className="w-full h-full object-contain"
+                    alt="Bitcoin Logo"
                   />
-                  <label
-                    htmlFor="card"
-                    className="ml-4 flex gap-2 cursor-pointer"
-                  >
-                    <img
-                      src="https://readymadeui.com/images/visa.webp"
-                      className="w-12"
-                      alt="card1"
-                    />
-                    <img
-                      src="https://readymadeui.com/images/american-express.webp"
-                      className="w-12"
-                      alt="card2"
-                    />
-                    <img
-                      src="https://readymadeui.com/images/master.webp"
-                      className="w-12"
-                      alt="card3"
-                    />
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="radio"
-                    className="w-5 h-5 cursor-pointer"
-                    id="paypal"
+                </button>
+                <button className="w-full h-full">
+                  <img
+                    src="https://i.pinimg.com/originals/3a/c0/9f/3ac09f21f3f0a6ca5e755a63621a41a5.png"
+                    className="w-full h-full object-contain"
+                    alt="Ethereum Logo"
                   />
-                  <label
-                    htmlFor="paypal"
-                    className="ml-4 flex gap-2 cursor-pointer"
-                  >
-                    <img
-                      src="https://readymadeui.com/images/paypal.webp"
-                      className="w-20"
-                      alt="paypalCard"
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className="grid sm:grid-cols-4 gap-6 mt-6">
-                <div className="col-span-2">
-                  <input
-                    type="number"
-                    placeholder="Card number"
-                    className="px-4 py-3.5 bg-gray-800 text-white w-full text-sm border-2 rounded-md focus:border-blue-500 outline-none"
+                </button>
+                <button className="w-full h-full">
+                  <img
+                    src="https://readymadeui.com/images/paypal.webp"
+                    className="w-full h-full object-contain"
+                    alt="PayPal Logo"
                   />
-                </div>
-                <input
-                  type="number"
-                  placeholder="EXP."
-                  className="px-4 py-3.5 bg-gray-800 text-white w-full text-sm border-2 rounded-md focus:border-blue-500 outline-none"
-                />
-                <input
-                  type="number"
-                  placeholder="CVV"
-                  className="px-4 py-3.5 bg-gray-800 text-white w-full text-sm border-2 rounded-md focus:border-blue-500 outline-none"
-                />
+                </button>
+                <button className="w-full h-full">
+                  <img
+                    src="https://www.freepnglogos.com/uploads/visa-and-mastercard-logo-26.png"
+                    className="w-full h-full object-contain"
+                    alt="Visa Logo"
+                  />
+                </button>
               </div>
             </div>
           </div>
           <div className="flex flex-wrap justify-end gap-4 mt-12">
             <button
+              onClick={handleSubmit}
               type="submit"
               className="px-6 py-3.5 text-sm bg-transparent border-2 text-white rounded-md hover:bg-gray-800"
             >
-              Pay later
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="px-6 py-3.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Pay now
+              Pay later at home
             </button>
           </div>
         </div>
@@ -275,4 +235,4 @@ const Chekout = () => {
     </div>
   );
 };
-export default Chekout;
+export default ChekoutFood;

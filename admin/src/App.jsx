@@ -16,6 +16,8 @@ import Appoinements from "./pages/adminPages/card/Appoinements";
 import AddFood from "./pages/adminPages/add/AddFood";
 import Appoinement from "./pages/adminPages/Appoinement";
 import AddClub from "./pages/adminPages/add/AddClub";
+import AddEvent from "./pages/adminPages/add/AddEvent";
+import General from "./pages/adminPages/General";
 
 function App() {
   const { user } = useAuthContext();
@@ -25,10 +27,8 @@ function App() {
 
   return (
     <Routes>
-      {!user && (
-        // If user is not authenticated, render the Login component
-        <Route path="/" element={<Login />} />
-      )}
+      <Route path="/" element={<Login />} />
+
       {user && user.role == "admin" && (
         <Route path="/" element={<Layout />}>
           <Route path="/appoienment" element={<Appoinement />} />
@@ -46,6 +46,8 @@ function App() {
           <Route path="/addProduct" element={<AddProduct />} />
           <Route path="/food/add" element={<AddFood />} />
           <Route path="/club/add" element={<AddClub />} />
+          <Route path="/event/add" element={<AddEvent />} />
+          <Route path="/general" element={<General />} />
         </Route>
       )}
     </Routes>
