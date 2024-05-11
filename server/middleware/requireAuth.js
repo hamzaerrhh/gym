@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 export const requireAuth = async (req, res, next) => {
   console.log("start require auth");
   const token = req.cookies.token;
+  console.log(req);
+  console.log(token);
 
   if (token) {
     try {

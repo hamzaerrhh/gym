@@ -31,7 +31,9 @@ const corsOptions = {
   origin: [
     "http://localhost:5174",
     "http://localhost:5173",
+    "http://localhost:4173",
     "https://gym-sigma-seven.vercel.app",
+    "https://gym-sigma-seven.vercel.app/product",
   ],
   credentials: true,
 };
