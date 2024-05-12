@@ -33,12 +33,6 @@ import { useAuthContext } from "./hooks/useAuthContext";
 function App() {
   const navigate = useNavigate();
   const { user } = useAuthContext();
-  if (user) {
-    console.log("he is a ", user.role);
-  } else {
-    console.log("no user found");
-    navigate("/login");
-  }
 
   return (
     <Routes>
@@ -46,7 +40,7 @@ function App() {
         <>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="*" element={<Register />} />
+          <Route path="/*" element={<Register />} />
         </>
       )}
       {/*i will add route of coach 
