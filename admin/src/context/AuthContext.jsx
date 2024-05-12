@@ -24,9 +24,15 @@ export const AuthContextProvider = ({ children }) => {
       console.log("start geting", token);
       if (token) {
         try {
-          const res = await axios.get("http://localhost:5000/api/auth/data", {
-            withCredentials: true,
-          });
+          const res = await axios.get(
+            `${import.meta.env.VITE_SERVER_URL}/api/auth/data`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              withCredentials: true,
+            }
+          );
           console.log("fenish geting");
           dispatch({ type: "LOGIN", payload: res.data.user });
           console.log(res);

@@ -8,6 +8,7 @@ import { GrView } from "react-icons/gr";
 import PoductView from "./view/PoductView";
 import { IoMdCloseCircle } from "react-icons/io";
 import EditProduct from "./edit/EditProduct";
+import Cookie from "js-cookie";
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -18,6 +19,16 @@ const Product = () => {
   const itemsPerPage = 10;
   const [view, setView] = useState(false);
   const [viewProduct, setViewProduct] = useState();
+  const token = Cookie.get("token");
+  console.log("token", token);
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    withCredentials: true,
+  };
+
   const remove = (product) => {
     try {
       toast.custom(() => (
@@ -56,8 +67,10 @@ const Product = () => {
               onClick={async () => {
                 try {
                   const res = await axios.delete(
-                    `http://localhost:5000/api/product/${product._id}`,
-                    { withCredentials: true }
+                    `${import.meta.env.VITE_SERVER_URL}/api/product/${
+                      product._id
+                    }`,
+                    config
                   );
                   console.log(res);
                 } catch (err) {
@@ -82,9 +95,11 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/product/", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/api/product`,
+          config
+        );
+
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data: ", error);

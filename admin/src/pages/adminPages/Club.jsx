@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-
+import Cookies from "js-cookie";
 const Club = () => {
   const [view, setView] = useState(false);
   const [data, setData] = useState([]);
@@ -16,9 +16,15 @@ const Club = () => {
 
   const delet = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:5000/api/club/${id}`, {
-        withCredentials: true,
-      });
+      const res = await axios.delete(
+        `${import.meta.env.VITE_SERVER_URL}/api/club/${id}`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
       console.log(err);
     } catch (err) {
       console.log(err);
@@ -27,9 +33,13 @@ const Club = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/club", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/api/club`,
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+        }
+      );
       setData(res.data);
     } catch (error) {
       console.error("Error fetching data:", error);

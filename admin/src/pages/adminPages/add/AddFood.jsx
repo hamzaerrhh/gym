@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import toast, { Toaster } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const AddFood = () => {
   const [loading, setLoading] = useState(false);
@@ -135,7 +136,7 @@ const AddFood = () => {
     // Send form data to API
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/food/add",
+        `${import.meta.env.VITE_SERVER_URL}/api/food/add`,
         {
           name: formData.name,
           prix: formData.prix,
@@ -150,6 +151,7 @@ const AddFood = () => {
         },
         {
           withCredentials: true,
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         }
       );
 

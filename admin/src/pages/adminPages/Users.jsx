@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-
+import Cookies from "js-cookie";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,9 +12,15 @@ const Users = () => {
 
   const getUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/all", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/api/admin/all`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
       setUsers(res.data);
       console.log(res.data);
     } catch (err) {
@@ -40,9 +46,14 @@ const Users = () => {
   const changeRole = async (id, role) => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/admin/${id}`,
+        `${import.meta.env.VITE_SERVER_URL}/api/admin/${id}`,
         { role },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
       );
       console.log(res);
     } catch (err) {

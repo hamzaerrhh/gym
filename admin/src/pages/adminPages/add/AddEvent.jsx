@@ -57,9 +57,14 @@ const AddEvent = () => {
     console.log(formData.image);
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/event",
+        `${import.meta.env.VITE_SERVER_URL}/api/event`,
         { formData },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
       );
       console.log(res);
       toast.success("event added succesfully");

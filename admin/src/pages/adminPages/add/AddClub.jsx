@@ -3,6 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import uploadFile from "../../../helper/upload";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
+import Cookies from "js-cookie";
 const ClubForm = () => {
   const [view, setView] = useState(false);
   const [clubData, setClubData] = useState({
@@ -11,7 +12,6 @@ const ClubForm = () => {
     image: "",
     sport: "",
     category: "",
-
     timeline: [{ day: "", startTime: "", endTime: "" }],
     prix: {
       oneMonth: 0,
@@ -88,10 +88,17 @@ const ClubForm = () => {
       console.log("the image to go ", clubData.image);
 
       const res = await axios.post(
-        "http://localhost:5000/api/club",
+        `${import.meta.env.VITE_SERVER_URL}/api/club`,
         { clubData },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
       );
+
       console.log(res);
     } catch (err) {
       console.log(err);

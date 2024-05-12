@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 const ChekOut = ({ order, onClose }) => {
   const [orders, setOrders] = useState([]);
   const getOrder = async () => {
@@ -13,8 +14,13 @@ const ChekOut = ({ order, onClose }) => {
 
         // Using await to wait for the axios request to complete
         const response = await axios.get(
-          `http://localhost:5000/api/product/${product.product_id}`,
-          { withCredentials: true }
+          `${import.meta.env.VITE_SERVER_URL}/api/product/${
+            product.product_id
+          }`,
+          {
+            withCredentials: true,
+            headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+          }
         );
 
         // Pushing the retrieved data to orderProducts array

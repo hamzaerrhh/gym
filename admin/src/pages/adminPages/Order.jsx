@@ -6,6 +6,7 @@ import { GiConfirmed } from "react-icons/gi";
 import toast, { Toaster } from "react-hot-toast";
 import Product from "./Product";
 import ChekOut from "./card/ChekOut";
+import Cookies from "js-cookie";
 
 const Order = () => {
   const [orders, setOrders] = useState([]);
@@ -21,9 +22,15 @@ const Order = () => {
 
   const getData = async () => {
     try {
-      let res = await axios.get("http://localhost:5000/api/order", {
-        withCredentials: true,
-      });
+      let res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/api/order`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
       setOrders(res.data.orders);
     } catch (error) {
       console.log(error);
@@ -67,8 +74,13 @@ const Order = () => {
               onClick={async () => {
                 try {
                   const res = await axios.delete(
-                    `http://localhost:5000/api/order/${order._id}`,
-                    { withCredentials: true }
+                    `${import.meta.env.VITE_SERVER_URL}/api/order/${order._id}`,
+                    {
+                      withCredentials: true,
+                      headers: {
+                        Authorization: `Bearer ${Cookies.get("token")}`,
+                      },
+                    }
                   );
                   console.log(res);
                 } catch (err) {

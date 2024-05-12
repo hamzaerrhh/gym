@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 const Food = () => {
   const [foods, setFoods] = useState([]);
@@ -11,9 +12,15 @@ const Food = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/food/", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/api/food`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
         setFoods(response.data);
         console.log("food", foods);
       } catch (error) {

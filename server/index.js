@@ -55,7 +55,7 @@ app.use("/api/auth", authRout);
 app.use("/api/admin", adminRout);
 app.use("/api/product", productRoutes);
 app.use("/api/food", foodRoute);
-app.use("/api/product/cat", catRoute);
+app.use("/api/cat/product", catRoute);
 app.use("/api/order", orderRoute);
 app.use("/api/appoinement", appoinementsRoute);
 app.use("/api/club", clubRout);

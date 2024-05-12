@@ -1,19 +1,34 @@
 // Middleware for requiring authentication and checking user role
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
+
+const extractToken = (token) => {
+  const index = token.indexOf("=");
+  if (index !== -1) {
+    return token.substring(index + 1);
+  } else {
+    return null; // '=' not found in token
+  }
+};
+
 export const requireAuth = async (req, res, next) => {
   console.log("start require auth");
-  const token = req.cookies.token;
-  console.log(req);
-  console.log(token);
+  const token = req.headers.cookie;
 
-  if (token) {
+  console.log(req);
+  console.log("iiiiiiiiiiiiiiiiiiiiiiiiiii");
+  console.log(token);
+  const test = extractToken(token);
+  console.log("ffffffffffffffffffffffffff");
+  console.log(test);
+
+  if (test) {
     try {
       // Verify token
       console.log("start getting");
       console.log(process.env.JWT_PASS);
 
-      const { id } = jwt.verify(token, process.env.JWT_PASS);
+      const { id } = jwt.verify(test, process.env.JWT_PASS);
 
       // Find user
       const user = await User.findOne({ _id: id });

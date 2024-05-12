@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import uploadFile from "../../../helper/upload";
 import axios from "axios";
+import Cookies from "js-cookie";
 const EditProduct = ({ product }) => {
   const [editedProduct, setEditedProduct] = useState(product);
   const [Image, setImage] = useState();
@@ -35,9 +36,12 @@ const EditProduct = ({ product }) => {
       }
 
       const res = await axios.put(
-        `http://localhost:5000/api/product/${editedProduct._id}`,
+        `${import.meta.env.VITE_SERVER_URL}/api/product/${editedProduct._id}`,
         editedProduct,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+        }
       );
       console.log(res);
 

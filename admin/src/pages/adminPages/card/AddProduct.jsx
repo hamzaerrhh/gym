@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import uploadFile from "../../../helper/upload";
+import Cookies from "js-cookie";
 
 const AddProduct = () => {
   const [cat, setCat] = useState([]);
@@ -22,9 +23,15 @@ const AddProduct = () => {
   });
 
   const feechCat = async () => {
-    const res = await axios.get("http://localhost:5000/api/product/cat", {
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      `${import.meta.env.VITE_SERVER_URL}/api/cat/product`,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
     console.log("cat", res.data);
     setCat(res.data);
   };
@@ -118,7 +125,7 @@ const AddProduct = () => {
     // Send form data to API
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/product/add",
+        ` ${import.meta.env.VITE_SERVER_URL}/api/product/add`,
         {
           name: formData.name,
           prix: formData.prix,
@@ -130,6 +137,9 @@ const AddProduct = () => {
         },
         {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
         }
       );
 
@@ -182,10 +192,16 @@ const AddProduct = () => {
               onClick={async () => {
                 try {
                   const res = await axios.post(
-                    "http://localhost:5000/api/product/cat/addCP",
+                    `${import.meta.env.VITE_SERVER_URL}/api/cat/product/addCP`,
                     { newCategory },
-                    { withCredentials: true }
+                    {
+                      withCredentials: true,
+                      headers: {
+                        Authorization: `Bearer ${Cookies.get("token")}`,
+                      },
+                    }
                   );
+                  console.log(res);
                 } catch (err) {
                   console.log(err);
                 }

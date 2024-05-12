@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const Appoinement = () => {
   const [data, setData] = useState([]);
@@ -8,9 +9,14 @@ const Appoinement = () => {
 
   const feetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/appoinement", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/api/appoinement`,
+        {
+          withCredentials: true,
+
+          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+        }
+      );
       setData(res.data);
     } catch (error) {
       console.log(error);
