@@ -46,6 +46,7 @@ function App() {
         <>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="*" element={<Register />} />
         </>
       )}
       {/*i will add route of coach 
@@ -108,10 +109,9 @@ function App() {
               }
             />
           </Route>
+          <Route path="*" element={<ErrorPage />} />
         </>
       )}
-
-      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 }
