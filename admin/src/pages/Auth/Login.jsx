@@ -20,10 +20,13 @@ const Login = () => {
       return;
     }
     try {
-      let res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      let res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
       //verify if he is admin
       const user = res.data.user.role;
       if (user === "admin") {
