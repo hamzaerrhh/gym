@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { clearCart } from "../../redux/reducere/cartSlice";
-
+import Cookies from "js-cookie";
 const Chekout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -58,9 +58,15 @@ const Chekout = () => {
       }
       //send the data
       const res = await axios.post(
-        "http://localhost:5000/api/order/add",
+        `${import.meta.env.VITE_SERVER_URL}/api/order/add`,
+
         { formData, products },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
       );
 
       dispatch(clearCart());

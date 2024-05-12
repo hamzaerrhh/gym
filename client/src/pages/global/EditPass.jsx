@@ -20,7 +20,7 @@ const EditPass = () => {
         return;
       }
       const res = await axios.post(
-        `http://localhost:5000/api/auth/reset/${forgetToken}`,
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/reset/${forgetToken}`,
         {
           pass,
           confirm,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import axios from "axios";
-import SearchClub from "./SearchClub";
+import Cookies from "js-cookie";
 
 const ClubsCasual = () => {
   const [clubs, setClubs] = useState([]);
@@ -14,9 +14,15 @@ const ClubsCasual = () => {
   useEffect(() => {
     const fetchClubs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/club", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/api/club`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
         setClubs(response.data);
         setSearchResults(response.data);
       } catch (error) {

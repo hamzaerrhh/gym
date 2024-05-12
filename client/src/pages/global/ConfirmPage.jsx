@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 const ConfirmPage = () => {
   const { activation } = useParams();
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const ConfirmPage = () => {
     const handleVerification = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/auth/verify/${activation}`
+          `${import.meta.env.VITE_SERVER_URL}/api/auth/verify/${activation}`
         );
         console.log(res);
 

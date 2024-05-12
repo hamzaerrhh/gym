@@ -7,27 +7,38 @@ import gym_svg from "../../assets/gym.svg";
 import boxing from "../../assets/boxing.svg";
 import basket from "../../assets/basket.svg";
 import taekwando from "../../assets/taekwando.svg";
-import gym from "../../assets/gym.svg";
 import training from "../../assets/training.svg";
+import Cookies from "js-cookie";
 
 const OurStore = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); // State to store search term
-
+  const [searchTerm, setSearchTerm] = useState("");
   const fetchCategories = async () => {
-    const res = await axios.get("http://localhost:5000/api/product/cat", {
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      `${import.meta.env.VITE_SERVER_URL}/api/cat/product`,
+      {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }
+    );
     setCategories(res.data);
   };
 
   const getProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/product", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/api/product`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
       setProducts(res.data);
     } catch (err) {
       console.log(err);

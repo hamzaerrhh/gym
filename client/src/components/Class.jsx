@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const Class = () => {
   const [clubs, setClubs] = useState([]);
 
   useEffect(() => {
     const fetchClubs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/club", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/api/club`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
         setClubs(response.data);
         console.log(response.data);
       } catch (error) {

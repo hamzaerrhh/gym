@@ -3,6 +3,7 @@ import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import axios from "axios";
 import FoodCard from "./cards/FoodCard";
 import { food_bg } from "../../assets";
+import Cookies from "js-cookie";
 const Nurition = () => {
   const [data, setData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -14,9 +15,15 @@ const Nurition = () => {
 
   const feetchData = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/food", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/api/food`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
       setData(res.data);
       console.log(res.data);
     } catch (err) {

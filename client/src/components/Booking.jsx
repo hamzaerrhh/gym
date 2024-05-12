@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import Booking from "../pages/user/Booking";
-
+import Cookies from "js-cookie";
 const BookingForm = ({ type }) => {
   const [step, setStep] = useState(1); // Track the current step
   const [date, setDate] = useState(new Date());
@@ -33,7 +33,8 @@ const BookingForm = ({ type }) => {
       console.log("the data to send", name, date, lastName, number);
 
       const res = await axios.post(
-        "http://localhost:5000/api/appoinement",
+        `${import.meta.env.VITE_SERVER_URL}/api/appoinement`,
+
         {
           info: {
             name: name,
@@ -43,7 +44,12 @@ const BookingForm = ({ type }) => {
           appointmentType: type,
           reservationTime: date,
         },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
       );
       console.log(res);
     } catch (error) {

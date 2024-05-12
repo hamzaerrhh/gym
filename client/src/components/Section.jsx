@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 const Section = () => {
   const [data, setData] = useState([]);
 
   const feetchEvent = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/event", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/api/event`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
       console.log(res.data);
       setData(res.data);
     } catch (err) {

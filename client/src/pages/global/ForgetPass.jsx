@@ -11,7 +11,7 @@ const ForgetPass = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/forgetPass",
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/forgetPass`,
         { email }
       );
       setErr("check ur email");

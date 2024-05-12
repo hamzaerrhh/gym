@@ -29,9 +29,15 @@ export const AuthContextProvider = ({ children }) => {
     const token = Cookies.get("token");
     if (token) {
       try {
-        const res = await axios.get("http://localhost:5000/api/auth/data", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/api/auth/data`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
         dispatch({ type: "LOGIN", payload: res.data.user });
       } catch (err) {
         console.error(err);
