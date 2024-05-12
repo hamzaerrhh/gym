@@ -13,10 +13,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
       //start setting token to rowser
       const token = res.data.token;
       if (!token) {

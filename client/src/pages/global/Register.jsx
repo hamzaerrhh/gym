@@ -28,9 +28,12 @@ const Register = () => {
         return;
       }
 
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        formdata,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/register`,
+        {
+          formdata,
+        }
+      );
       console.log("the responce", res.data);
       setErr("thank u for join us now check ur email");
     } catch (err) {
