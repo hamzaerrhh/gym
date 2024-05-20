@@ -62,17 +62,18 @@ const Register = () => {
             </div>
             <div className="w-full py-6 z-20">
               <h1 className="my-2">
-                <div className="w-auto flex justify-center align-center text-center   gap-4">
+                <div className="w-auto flex justify-center items-center text-center   gap-4">
                   <img
                     src={gym}
                     alt="gym"
-                    className="mx-auto"
-                    width="150"
-                    height="150"
+                    className=" flex align-center text-center bg-white rounded-sm"
+                    width="50"
+                    height="50"
                     loading="lazy"
                   />
-
-                  <span className=" font-bold"> gym of gladyator</span>
+                  <span className=" text-center font-bold">
+                    gym of gladyator
+                  </span>
                 </div>
               </h1>
               <div className="py-6 space-x-2">
