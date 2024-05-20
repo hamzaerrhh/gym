@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import FoodCard from "./cards/FoodCard";
 import { food_bg } from "../../assets";
 import Cookies from "js-cookie";
 const Nurition = () => {
   const [data, setData] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [sortOrder, setSortOrder] = useState({
-    protein: "asc",
-    carbohydrates: "asc",
-    fat: "asc",
-  });
 
   const feetchData = async () => {
     try {

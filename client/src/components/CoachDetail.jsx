@@ -1,5 +1,5 @@
-import { box } from "../assets";
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa6";
+import PropTypes from "prop-types";
 const CoachDetail = ({ detaille }) => {
   return (
     <section className=" bg-black dark:text-gray-200">
@@ -59,11 +59,26 @@ const CoachDetail = ({ detaille }) => {
         <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {detaille.images &&
             detaille.images.map((image, index) => (
-              <img className="object-cover w-full h-64" src={image} alt="" />
+              <img
+                key={index}
+                className="object-cover w-full h-64"
+                src={image}
+                alt=""
+              />
             ))}
         </div>
       </div>
     </section>
   );
 };
+CoachDetail.propTypes = {
+  detaille: PropTypes.shape({
+    imageMain: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string,
+    description: PropTypes.string,
+    images: PropTypes.arrayOf(PropTypes.string), // Assuming `images` is an array of strings
+  }).isRequired,
+};
+
 export default CoachDetail;

@@ -42,7 +42,6 @@ const BookCoaching = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchByNameInput, setSearchByNameInput] = useState("");
-  const [searchByPriceInput, setSearchByPriceInput] = useState("");
   const [filteredCoaches, setFilteredCoaches] = useState([]);
 
   const handleSearchByCategory = (category) => {
@@ -117,11 +116,10 @@ const BookCoaching = () => {
                 name="fav_language"
                 value="free"
               />
-                <label htmlFor="html">free</label>
+              <label htmlFor="html">free</label>
             </dev>
 
             <dev>
-               
               <input
                 type="radio"
                 onClick={handleLowestPrice}
@@ -129,7 +127,7 @@ const BookCoaching = () => {
                 name="fav_language"
                 value="lowest"
               />
-                <label htmlFor="css">lowest</label>
+              <label htmlFor="css">lowest</label>
             </dev>
           </form>
         </div>

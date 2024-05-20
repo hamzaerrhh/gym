@@ -1,6 +1,5 @@
 import CoachDetail from "../../components/CoachDetail";
-import Cotch from "../../components/Cotch";
-import Coachheader from "../user/hero/Coachheader";
+import Coachheader from "../../pages/user/hero/Coachheader";
 import {
   box,
   mma,

@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/global/Login";
@@ -21,17 +20,15 @@ import OurStore from "./pages/user/OurStore";
 import ProductDetaile from "./pages/user/ProductDetaile";
 import BookCoaching from "./pages/user/BookCoaching";
 import Booking from "./pages/user/Booking";
-import { useNavigate } from "react-router-dom";
 
 import Chekout from "./pages/user/Chekout";
-import Test from "./pages/user/Test";
+import Test from "./pages/Test";
 import BookingPage from "./pages/user/BookingPage";
 import ChekoutFood from "./pages/user/ChekoutFood";
 import ErrorPage from "./components/ErrorPage";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 function App() {
-  const navigate = useNavigate();
   const { user } = useAuthContext();
 
   return (
@@ -48,6 +45,7 @@ function App() {
 
       {user && (
         <>
+          <Route path="/test" element={<Test />} />
           <Route path="/" element={<Layout />}>
             <Route path="/chekout/product" element={<Chekout />} />
             <Route path="/chekout/food" element={<ChekoutFood />} />
@@ -66,6 +64,7 @@ function App() {
             <Route path="/store/:id" element={<ProductDetaile />} />
             <Route path="/findCoach" element={<BookCoaching />} />
             <Route path="/findCoach/:id" element={<Booking />} />
+
             <Route
               path="/spa/massage"
               element={

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import PropTypes from "prop-types";
 
 const ClubsCasual = () => {
   const [clubs, setClubs] = useState([]);
@@ -110,6 +111,28 @@ const ClubsCasual = () => {
         </div>
       </div>
     );
+  };
+  Dev.propTypes = {
+    club: PropTypes.shape({
+      image: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      sport: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      prix: PropTypes.shape({
+        oneMonth: PropTypes.number.isRequired,
+        threeMonths: PropTypes.number.isRequired,
+        sixMonths: PropTypes.number.isRequired,
+        oneYear: PropTypes.number.isRequired,
+      }).isRequired,
+      timeline: PropTypes.arrayOf(
+        PropTypes.shape({
+          day: PropTypes.string.isRequired,
+          startTime: PropTypes.string.isRequired,
+          endTime: PropTypes.string.isRequired,
+        })
+      ).isRequired,
+    }).isRequired,
   };
 
   return (

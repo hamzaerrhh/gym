@@ -65,10 +65,13 @@ const Register = () => {
                 <div className="w-auto flex justify-center align-center text-center   gap-4">
                   <img
                     src={gym}
-                    height={30}
-                    width={30}
-                    className=" bg-white rounded-lg p-2"
+                    alt="gym"
+                    className="mx-auto"
+                    width="150"
+                    height="150"
+                    loading="lazy"
                   />
+
                   <span className=" font-bold"> gym of gladyator</span>
                 </div>
               </h1>

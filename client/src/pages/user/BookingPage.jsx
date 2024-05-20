@@ -1,4 +1,5 @@
 import BookingForm from "../../components/Booking";
+import propTypes from "prop-types";
 
 export const BookingPage = ({ image, title1, title2, para, type }) => {
   return (
@@ -42,5 +43,12 @@ export const BookingPage = ({ image, title1, title2, para, type }) => {
       </div>
     </div>
   );
+};
+BookingPage.propTypes = {
+  image: propTypes.string.isRequired,
+  title1: propTypes.string.isRequired,
+  title2: propTypes.string.isRequired,
+  para: propTypes.string.isRequired,
+  type: propTypes.string.isRequired,
 };
 export default BookingPage;

@@ -1,4 +1,3 @@
-import React from "react";
 import gym from "../assets/gym.svg";
 
 const Article = () => {
@@ -10,9 +9,9 @@ const Article = () => {
       }}
     >
       <h1 className="text-4xl text-gray-300 leading-relaxed text-center w-4/5">
-        "Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s"
+        Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry&apos;s standard dummy text
+        ever since the 1500s
       </h1>
       <div className="flex items-center gap-4">
         <div className="rounded-full w-12 h-12 bg-white overflow-hidden">

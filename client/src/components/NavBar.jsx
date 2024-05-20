@@ -1,5 +1,5 @@
 import gym from "../assets/gym.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaFacebookF } from "react-icons/fa6";
 import { RiInstagramFill } from "react-icons/ri";
 import Cookies from "js-cookie";

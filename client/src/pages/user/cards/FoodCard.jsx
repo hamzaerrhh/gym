@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../../redux/reducere/foodSlice";
-
+import propTypes from "prop-types";
 const FoodCard = ({ food }) => {
   const dispatch = useDispatch();
   const foodItems = useSelector((state) => state.food.items);
@@ -43,6 +43,19 @@ const FoodCard = ({ food }) => {
       </div>
     </div>
   );
+};
+FoodCard.propTypes = {
+  food: propTypes.shape({
+    mainImage: propTypes.string.isRequired,
+    name: propTypes.string.isRequired,
+    ingredients: propTypes.string.isRequired,
+    info: propTypes.shape({
+      protein: propTypes.number.isRequired,
+      fat: propTypes.number.isRequired,
+      carbohydrates: propTypes.number.isRequired,
+    }).isRequired,
+    prix: propTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default FoodCard;

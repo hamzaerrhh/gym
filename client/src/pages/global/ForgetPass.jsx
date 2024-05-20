@@ -1,7 +1,7 @@
 import axios from "axios";
 import gym from "../../assets/gym.svg";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 const ForgetPass = () => {
   const [email, setEmail] = useState("");
   const [err, setErr] = useState("");
@@ -14,6 +14,7 @@ const ForgetPass = () => {
         `${import.meta.env.VITE_SERVER_URL}/api/auth/forgetPass`,
         { email }
       );
+      console.log(res);
       setErr("check ur email");
     } catch (err) {
       setErr("the email not found");

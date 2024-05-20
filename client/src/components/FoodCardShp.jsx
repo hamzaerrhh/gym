@@ -6,8 +6,8 @@ import {
   removeItem,
   incrementQuantity,
   decrementQuantity,
-  clearCart,
 } from "../redux/reducere/foodSlice";
+import PropTypes from "prop-types";
 
 export default function FoodCardShop({ open, action }) {
   const cartItems = useSelector((state) => state.food.items);
@@ -197,3 +197,8 @@ export default function FoodCardShop({ open, action }) {
     </Transition>
   );
 }
+
+FoodCardShop.propTypes = {
+  open: PropTypes.bool.isRequired,
+  action: PropTypes.func.isRequired,
+};

@@ -1,4 +1,3 @@
-import { girl_train } from "../assets";
 const LastEvent = () => {
   return (
     <section className=" flex flex-col gap-6 px-5 py-10 dark:bg-gray-900 dark:text-gray-100">

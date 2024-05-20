@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useReducer,
   useEffect,
@@ -8,7 +8,7 @@ import React, {
 import Cookies from "js-cookie";
 
 import axios from "axios";
-
+import propTypes from "prop-types";
 export const AuthContext = createContext();
 
 export const authReducer = (state, action) => {
@@ -56,4 +56,7 @@ export const AuthContextProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
+};
+AuthContextProvider.propTypes = {
+  children: propTypes.node.isRequired,
 };

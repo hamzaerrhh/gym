@@ -1,4 +1,3 @@
-import training from "../assets/training.jpg";
 const ClubHeader = () => {
   return (
     <section className="mb-20">

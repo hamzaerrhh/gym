@@ -1,4 +1,3 @@
-import gymBanner from "../assets/gymBanner.jpg";
 import gym from "../assets/gym.svg";
 const HerBaner = () => {
   return (

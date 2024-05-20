@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../../redux/reducere/cartSlice";
-import { useEffect, useState } from "react";
-
+import propTypes from "prop-types";
 const ProductCard = ({ data }) => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
@@ -111,5 +110,14 @@ const ProductCard = ({ data }) => {
       </div>
     </>
   );
+};
+ProductCard.propTypes = {
+  data: propTypes.shape({
+    mainImage: propTypes.string.isRequired,
+    name: propTypes.string.isRequired,
+    description: propTypes.string.isRequired,
+    category: propTypes.string.isRequired,
+    prix: propTypes.number.isRequired,
+  }).isRequired,
 };
 export default ProductCard;

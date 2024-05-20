@@ -2,10 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import Booking from "../pages/user/Booking";
 import Cookies from "js-cookie";
+import PropTypes from "prop-types";
+
 const BookingForm = ({ type }) => {
   const [step, setStep] = useState(1); // Track the current step
   const [date, setDate] = useState(new Date());
-  const [showForm, setShowForm] = useState(false); // State to track whether to show the form
   const [name, setName] = useState();
   const [number, setNumber] = useState();
   const [lastName, setLastName] = useState();
@@ -20,12 +21,10 @@ const BookingForm = ({ type }) => {
       console.log("start addinhg");
     }
     setStep(step + 1); // Move to the next step
-    setShowForm(true); // Show the form when "Next" is clicked
   };
 
   const handlePrevClick = () => {
     setStep(step - 1); // Move to the previous step
-    setShowForm(false); // Hide the form when "Prev" is clicked
   };
 
   const handleSubmet = async () => {
@@ -188,4 +187,8 @@ const BookingForm = ({ type }) => {
     </>
   );
 };
+BookingForm.propTypes = {
+  type: PropTypes.string.isRequired,
+};
+
 export default BookingForm;

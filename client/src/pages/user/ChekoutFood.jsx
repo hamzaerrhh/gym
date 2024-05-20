@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { clearCart } from "../../redux/reducere/cartSlice";
+import Cookies from "js-cookie";
 
 const ChekoutFood = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const food = useSelector((state) => state.food.items);
-  const [total, setTotal] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
     last_name: "",
@@ -35,11 +35,6 @@ const ChekoutFood = () => {
     }
   }, []);
 
-  const handlePaypal = () => {};
-
-  //   if (cartItems) {
-  //     navigate("/");
-  //   }
   const handleSubmit = async () => {
     console.log("Submitted!");
     console.log(formData);
@@ -83,7 +78,7 @@ const ChekoutFood = () => {
       });
       navigate("/");
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
     toast.success("thank u!");
     toast.success("we will call u later");

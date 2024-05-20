@@ -10,7 +10,6 @@ const Chekout = () => {
   const dispatch = useDispatch();
 
   const products = useSelector((state) => state.cart.items);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     if (products.length === 0) {
@@ -68,6 +67,7 @@ const Chekout = () => {
           },
         }
       );
+      console.log(res);
 
       dispatch(clearCart());
 
@@ -83,7 +83,7 @@ const Chekout = () => {
       });
       navigate("/");
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
     toast.success("thank u!");
     toast.success("we will call u later");

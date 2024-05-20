@@ -6,8 +6,8 @@ import {
   removeItem,
   incrementQuantity,
   decrementQuantity,
-  clearCart,
 } from "../redux/reducere/cartSlice";
+import PropTypes from "prop-types";
 
 export default function CardShop({ open, action }) {
   const cartItems = useSelector((state) => state.cart.items);
@@ -200,3 +200,7 @@ export default function CardShop({ open, action }) {
     </Transition>
   );
 }
+CardShop.propTypes = {
+  open: PropTypes.bool.isRequired,
+  action: PropTypes.func.isRequired,
+};

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import propTypes from "prop-types";
 
-const Booking = ({ updateDate, type }) => {
+const Booking = ({ updateDate }) => {
   const [selectedDateTime, setSelectedDateTime] = useState(new Date());
 
   return (
@@ -40,5 +41,7 @@ const Booking = ({ updateDate, type }) => {
     </div>
   );
 };
-
+Booking.propTypes = {
+  updateDate: propTypes.func.isRequired,
+};
 export default Booking;

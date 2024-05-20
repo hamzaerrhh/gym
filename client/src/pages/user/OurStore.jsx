@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "./cards/ProductCrd";
 import StoreHero from "./hero/StoreHero";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import gym_svg from "../../assets/gym.svg";
 import boxing from "../../assets/boxing.svg";
 import basket from "../../assets/basket.svg";
 import taekwando from "../../assets/taekwando.svg";
